@@ -29,5 +29,8 @@
     <ClInclude Include="chap0.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="lib\matrix.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

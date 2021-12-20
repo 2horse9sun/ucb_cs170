@@ -7,7 +7,7 @@ int main()
 {   
     while (true) {
 
-        fib2_test();
+        fib3_test();
 
     }
 }
