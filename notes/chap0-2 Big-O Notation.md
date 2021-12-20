@@ -47,60 +47,45 @@ $fib2$的时间复杂度为：$O(n)$，若考虑数字的bit数，复杂度为$O
 
 之前提到过，存在更好的方法来计算$F_n$，原理是利用矩阵(matrix)：
 $$
-\left[
-\begin{array}\\
+\begin{bmatrix}
 F_1 \\
 F_2
-\end{array}
-\right]
+\end{bmatrix}
 =
-\left[
-\begin{array}\\
+\begin{bmatrix}
  0 & 1 \\
  1 & 1
-\end{array}
-\right]
-\left[
-\begin{array}\\
+\end{bmatrix}
+\begin{bmatrix}
 F_0 \\
 F_1
-\end{array}
-\right]
+\end{bmatrix}
 $$
 
 $$
-\left[
-\begin{array}\\
+\begin{bmatrix}
 F_2 \\
 F_3
-\end{array}
-\right]
+\end{bmatrix}
 =
-\left[
-\begin{array}\\
+\begin{bmatrix}
  0 & 1 \\
  1 & 1
-\end{array}
-\right]
-\left[
-\begin{array}\\
+\end{bmatrix}
+\begin{bmatrix}
 F_1 \\
 F_2
-\end{array}
-\right]
+\end{bmatrix}
 =
-\left[
-\begin{array}\\
+\begin{bmatrix}
  0 & 1 \\
  1 & 1
-\end{array}
-\right]^2
-\left[
-\begin{array}\\
+\end{bmatrix}
+^2
+\begin{bmatrix}
 F_0 \\
 F_1
-\end{array}
-\right]
+\end{bmatrix}
 $$
 
 $$
@@ -108,25 +93,20 @@ $$
 $$
 
 $$
-\left[
-\begin{array}\\
+\begin{bmatrix}
 F_{n} \\
 F_{n+1}
-\end{array}
-\right]
+\end{bmatrix}
 =
-\left[
-\begin{array}\\
+\begin{bmatrix}
  0 & 1 \\
  1 & 1
-\end{array}
-\right]^n
-\left[
-\begin{array}\\
+\end{bmatrix}
+^n
+\begin{bmatrix}
 F_0 \\
 F_1
-\end{array}
-\right]
+\end{bmatrix}
 $$
 
 所以只需要计算出一个固定矩阵的$n$次方就可以得出结果。代码如下：
@@ -186,12 +166,10 @@ $$
 有趣的是，仔细观察$fib3$中的矩阵：
 $$
 X=
-\left[
-\begin{array}\\
+\begin{bmatrix}
  0 & 1 \\
  1 & 1
-\end{array}
-\right]
+\end{bmatrix}
 $$
 可以求解出它的特征值为：
 $$
