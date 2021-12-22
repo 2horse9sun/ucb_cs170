@@ -1,5 +1,6 @@
 #include <iostream>
 #include "chap0.h"
+#include "chap1.h"
 
 
 
@@ -7,7 +8,7 @@ int main()
 {   
     while (true) {
 
-        fib3_test();
+        division_test();
 
     }
 }
