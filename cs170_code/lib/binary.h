@@ -243,8 +243,14 @@ public:
 		return make_pair(q, r);
 	}
 
-	pair<Binary, Binary> operator/(Binary& num) {
-		return divide(*this, num);
+	Binary operator/(Binary& num) {
+		pair<Binary, Binary> res = divide(*this, num);
+		return res.first;
+	}
+
+	Binary operator%(Binary& num) {
+		pair<Binary, Binary> res = divide(*this, num);
+		return res.second;
 	}
 
 };
