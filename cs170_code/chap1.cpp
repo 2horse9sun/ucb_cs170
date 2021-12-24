@@ -40,5 +40,5 @@ int get_multiplicative_inverse(int a, int N) {
 
 int mod_divide(int a, int b, int N) {
 	int inverse_b = get_multiplicative_inverse(b, N);
-	return inverse_b < 0 ? (a * inverse_b) % N + N : (a * inverse_b) % N; // 0 if inverse not exist
+	return inverse_b < 0 ? (a * inverse_b) % N + N : (a * inverse_b) % N; // 0 if inverse not exist, wrap around to 0~N-1
 }
