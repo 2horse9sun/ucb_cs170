@@ -17,7 +17,11 @@ int main()
 
         //euclid_test();
         //extended_euclid_test();
-        mod_divide_test();
+        //mod_divide_test();
+
+        //primality_test();
+        //primality2_test();
+        gen_random_prime_test();
 
     }
 }

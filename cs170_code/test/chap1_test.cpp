@@ -115,7 +115,7 @@ void modulo_test() {
 
 
 void modexp_test() {
-    std::cout << "modexp_test (N = 1337)" << std::endl;
+    std::cout << "modexp_test (N = 1000000007)" << std::endl;
     std::cout << "Input integer x: ";
     int x;
     std::cin >> x;
@@ -125,7 +125,7 @@ void modexp_test() {
     clock_t start, end;
     start = clock();
 
-    std::cout << "Output: " << modexp(x, y, 1337) << std::endl;
+    std::cout << "Output: " << modexp(x, y, 1000000007) << std::endl;
 
     end = clock();
     std::cout << "time = " << (double(end - start) / CLOCKS_PER_SEC) * 1000 << "ms" << std::endl;
@@ -184,6 +184,60 @@ void mod_divide_test() {
 
     std::cout << "Output: " << mod_divide(a, b, 1337) << std::endl;
 
+    end = clock();
+    std::cout << "time = " << (double(end - start) / CLOCKS_PER_SEC) * 1000 << "ms" << std::endl;
+    std::cout << "======================================" << std::endl;
+}
+
+void primality_test() {
+    std::cout << "primality_test" << std::endl;
+    std::cout << "Input an integer N: ";
+    int N;
+    std::cin >> N;
+    clock_t start, end;
+    start = clock();
+
+    std::cout << "N is prime ? " << (primality(N) ? "Yes" : "No") << std::endl;
+
+    end = clock();
+    std::cout << "time = " << (double(end - start) / CLOCKS_PER_SEC) * 1000 << "ms" << std::endl;
+    std::cout << "======================================" << std::endl;
+}
+
+void primality2_test() {
+    std::cout << "primality2_test" << std::endl;
+    std::cout << "Input an integer N: ";
+    int N;
+    std::cin >> N;
+    clock_t start, end;
+    start = clock();
+
+    std::cout << "N is prime ? " << (primality2(N) ? "Yes" : "No") << std::endl;
+
+    end = clock();
+    std::cout << "time = " << (double(end - start) / CLOCKS_PER_SEC) * 1000 << "ms" << std::endl;
+    std::cout << "======================================" << std::endl;
+}
+
+void gen_random_prime_test() {
+    std::cout << "gen_random_prime_test" << std::endl;
+    std::cout << "Input the lower bound: ";
+    int lb;
+    std::cin >> lb;
+    std::cout << "Input the upper bound: ";
+    int ub;
+    std::cin >> ub;
+    std::cout << "Input the num of primes: ";
+    int N;
+    std::cin >> N;
+    std::cout << "Primes generated: " << endl;
+    clock_t start, end;
+    start = clock();
+    
+    for (int i = 0; i < N; ++i) {
+        std::cout << gen_random_prime(lb, ub) << std::endl;
+    }
+    
     end = clock();
     std::cout << "time = " << (double(end - start) / CLOCKS_PER_SEC) * 1000 << "ms" << std::endl;
     std::cout << "======================================" << std::endl;
