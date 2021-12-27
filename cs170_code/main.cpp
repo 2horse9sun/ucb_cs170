@@ -6,6 +6,7 @@
 
 int main()
 {   
+
     while (true) {
 
         //addition_test();
@@ -21,7 +22,11 @@ int main()
 
         //primality_test();
         //primality2_test();
-        gen_random_prime_test();
+        //primality3_test();
+        //gen_random_prime_test();
+
+        //naive_AES_test();
+        naive_RSA_test();
 
     }
 }

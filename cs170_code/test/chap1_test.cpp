@@ -219,6 +219,21 @@ void primality2_test() {
     std::cout << "======================================" << std::endl;
 }
 
+void primality3_test() {
+    std::cout << "primality3_test" << std::endl;
+    std::cout << "Input an integer N: ";
+    int N;
+    std::cin >> N;
+    clock_t start, end;
+    start = clock();
+
+    std::cout << "N is prime ? " << (primality3(N) ? "Yes" : "No") << std::endl;
+
+    end = clock();
+    std::cout << "time = " << (double(end - start) / CLOCKS_PER_SEC) * 1000 << "ms" << std::endl;
+    std::cout << "======================================" << std::endl;
+}
+
 void gen_random_prime_test() {
     std::cout << "gen_random_prime_test" << std::endl;
     std::cout << "Input the lower bound: ";
@@ -238,6 +253,54 @@ void gen_random_prime_test() {
         std::cout << gen_random_prime(lb, ub) << std::endl;
     }
     
+    end = clock();
+    std::cout << "time = " << (double(end - start) / CLOCKS_PER_SEC) * 1000 << "ms" << std::endl;
+    std::cout << "======================================" << std::endl;
+}
+
+void naive_AES_test() {
+    std::cout << "naive_AES_test" << std::endl;
+    std::cout << "Input an integer x as a message: ";
+    int x;
+    std::cin >> x;
+    std::cout << "Input an integer r as private key: ";
+    int r;
+    std::cin >> r;
+    clock_t start, end;
+    start = clock();
+
+    int y = naive_AES_encode(x, r);
+    std::cout << "Encoded: " << y << std::endl;
+    std::cout << "Decoded: " << naive_AES_decode(y, r) << std::endl;
+
+    end = clock();
+    std::cout << "time = " << (double(end - start) / CLOCKS_PER_SEC) * 1000 << "ms" << std::endl;
+    std::cout << "======================================" << std::endl;
+}
+
+void naive_RSA_test() {
+    std::cout << "naive_RSA_test" << std::endl;
+    std::cout << "Input an integer x as a message: ";
+    int x;
+    std::cin >> x;
+    clock_t start, end;
+    start = clock();
+
+    // p, q should be large enough, here they are small (avoid overflow)
+    int p = 10601;
+    int q = 19763;
+    std::cout << "Pick two large random primes: " << "(" << p << ", " << q << ")" << std::endl;
+    pair<int, int> public_key = gen_public_key(p, q);
+    int N = public_key.first;
+    int e = public_key.second;
+    std::cout << "Public key: " << "(" << N << ", " << e << ")" << std::endl;
+    int d = gen_private_key(e, p, q);
+    std::cout << "Private key: " << d << std::endl;
+
+    int y = naive_RSA_encode(x, N, e);
+    std::cout << "Encoded: " << y << std::endl;
+    std::cout << "Decoded: " << naive_RSA_decode(y, N, d) << std::endl;
+
     end = clock();
     std::cout << "time = " << (double(end - start) / CLOCKS_PER_SEC) * 1000 << "ms" << std::endl;
     std::cout << "======================================" << std::endl;

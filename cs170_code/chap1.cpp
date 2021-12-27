@@ -3,16 +3,17 @@
 
 int modmul(int x, int y, int N) {
 	if (y == 0) return 0;
-	int yy = modmul(x, y / 2, N);
+	int yy = modmul(x % N, y / 2, N);
 	if (y % 2 == 0) return (2 * (yy % N)) % N;
 	else return (x % N + (2 * (yy % N)) % N) % N;
 }
 
+// N < (2^31 - 1) / 2
 int modexp(int x, int y, int N) {
 	if (y == 0) return 1;
-	int z = modexp(x, y / 2, N);
+	int z = modexp(x % N, y / 2, N);
 	if (y % 2 == 0) return modmul(z, z, N);
-	else return modmul(x, modexp(x, y - 1, N), N);
+	else return modmul(x % N, modexp(x % N, y - 1, N), N);
 }
 
 int euclid(int a, int b) {
@@ -52,6 +53,7 @@ int mod_divide(int a, int b, int N) {
 
 bool primality(int N) {
 	if (N == 1) return false;
+	// pick a positive integer < N at random
 	int a = rand() % (N - 1) + 1;
 	if (modexp(a, N - 1, N) == 1) return true;
 	else return false;
@@ -67,9 +69,68 @@ bool primality2(int N) {
 	return true;
 }
 
+// Miller-Rabin
+bool primality3(int N) {
+	if (N == 1) return false;
+	for (int i = 0; i < 50; ++i) {
+		int a = rand() % (N - 1) + 1;
+
+		int t = 0;
+		int u = N - 1;
+		while (u % 2 == 0) {
+			u /= 2;
+			t++;
+		}
+
+		int prev = -1;
+		int curr = modexp(a, u, N);
+		int val = 0;
+		for (int i = 0; i < t; ++i) {
+			prev = curr;
+			curr = modexp(curr, 2, N);
+			if (curr == 1 && prev == -1) val = prev;
+		}
+
+		if (curr != 1) return false;
+		else {
+			if (val == N - 1) return false;
+		}
+
+	}
+	return true;
+}
+
 
 int gen_random_prime(int lb, int ub) {
-	int N = rand() % (ub - 1) + lb;
-	while(!primality2(N)) N = rand() % (ub - 1) + lb;
+	int N = rand() % (ub - lb) + lb;
+	while(!primality3(N)) N = rand() % (ub - lb) + lb;
 	return N;
+}
+
+int naive_AES_encode(int x, int r) {
+	return x ^ r;
+}
+
+int naive_AES_decode(int y, int r) {
+	return y ^ r;
+}
+
+pair<int, int> gen_public_key(int p, int q) {
+	int N = p * q;
+	int e = 3;
+	return make_pair(N, e);
+}
+
+int gen_private_key(int e, int p, int q) {
+	int d = get_multiplicative_inverse(e, (p - 1) * (q - 1));
+	return d < 0 ? d + (p - 1) * (q - 1) : d;
+}
+
+// x < N
+int naive_RSA_encode(int x, int N, int e) {
+	return modexp(x, e, N);
+}
+
+int naive_RSA_decode(int y, int N, int d) {
+	return modexp(y, d, N);
 }

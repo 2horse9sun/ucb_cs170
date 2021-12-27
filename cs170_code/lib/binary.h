@@ -51,8 +51,8 @@ public:
 	}
 
 	// May overflow
-	int get_value() {
-		int res = 0;
+	long long get_value() {
+		long long res = 0;
 		for (int i = 0; i < length; ++i) res += (arr[i] == 1 ? (i==0?1:(2<<(i-1))) : 0);
 		return res;
 	}
@@ -289,5 +289,6 @@ ostream& operator<<(ostream& out, const Binary& num) {
 	}
 	return out;
 }
+
 
 #endif
