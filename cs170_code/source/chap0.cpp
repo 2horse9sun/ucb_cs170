@@ -1,6 +1,6 @@
 #include <iostream>
-#include "chap0.h"
-#include "lib/matrix.h"
+#include "../include/chap0.h"
+#include "../include/matrix.h"
 
 int fib1(int n) {
 	if (n == 0) return 0;

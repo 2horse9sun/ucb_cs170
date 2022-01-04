@@ -1,6 +1,6 @@
 #include <iostream>
 #include <time.h>
-#include "../chap0.h"
+#include "../include/chap0.h"
 
 void fib1_test() {
     std::cout << "fib1_test" << std::endl;

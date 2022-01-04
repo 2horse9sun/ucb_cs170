@@ -15,33 +15,42 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="chap0.cpp">
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\chap0.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\chap1.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="test\chap0_test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="chap1.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="test\chap1_test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\chap2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="test\chap2_test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="chap0.h">
+    <ClInclude Include="include\binary.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="lib\matrix.h">
+    <ClInclude Include="include\chap0.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="lib\binary.h">
+    <ClInclude Include="include\chap1.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="chap1.h">
+    <ClInclude Include="include\matrix.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\chap2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

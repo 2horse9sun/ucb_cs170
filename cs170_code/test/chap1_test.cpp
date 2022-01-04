@@ -1,7 +1,7 @@
 #include <iostream>
 #include <time.h>
-#include "../lib/binary.h"
-#include "../chap1.h"
+#include "../include/binary.h"
+#include "../include/chap1.h"
 
 void addition_test() {
     std::cout << "addition_test" << std::endl;

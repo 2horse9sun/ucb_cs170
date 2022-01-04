@@ -1,5 +1,5 @@
 #include <iostream>
-#include "chap1.h"
+#include "../include/chap1.h"
 
 int modmul(int x, int y, int N) {
 	if (y == 0) return 0;

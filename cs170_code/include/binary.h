@@ -1,5 +1,5 @@
-#ifndef integer_
-#define integer_
+#ifndef binary_
+#define binary_
 #include<iostream>
 #include<math.h>
 using namespace std;
@@ -165,28 +165,55 @@ public:
 		return subtraction;
 	}
 
-	Binary left_shift() {
+	Binary left_shift(int n = 1) {
 		if ((*this).is_zero()) return get_zero();
 		Binary res = *this;
-		while (res.length + 2 > res.MAX_LEN) res.double_size();
-		res.length++;
+		while (res.length + 1 + n > res.MAX_LEN) res.double_size();
+		res.length += n;
 		int i;
-		for (i = res.length-1; i > 0; --i) res.arr[i] = res.arr[i - 1];
-		res.arr[0] = 0;
+		for (i = res.length-1; i > n-1; --i) res.arr[i] = res.arr[i - n];
+		for (; i >= 0; --i) res.arr[i] = 0;
 		return res;
 	}
 
-	Binary right_shift() {
+	Binary right_shift(int n = 1) {
 		Binary res = *this;
 		if (res.length == 0) return res;
-		if (res.length == 1) {
+		if (res.length <= n) {
+			res.length = 1;
 			res.arr[0] = 0;
 			return res;
 		}
-		res.length--;
+		res.length -= n;
 		int i;
-		for (i = 0; i < res.length; ++i) res.arr[i] = res.arr[i+1];
+		for (i = 0; i < res.length; ++i) res.arr[i] = res.arr[i+n];
 		return res;
+	}
+
+	// start from index n
+	Binary get_leftmost(int n) {
+		int new_length = length-n > 0 ? length-n : 0;
+		if (new_length == 0) return get_zero();
+		Binary left_half = Binary();
+		while (left_half.MAX_LEN < new_length + 1) left_half.double_size();
+		left_half.length = new_length;
+		for (int i = 0; i < new_length; ++i) left_half.arr[i] = arr[i + n];
+		return left_half;
+	}
+
+	// start from index 0
+	Binary get_rightmost(int n) {
+		int new_length = n;
+		if (new_length == 0) return get_zero();
+		Binary right_half = Binary();
+		while (right_half.MAX_LEN < new_length + 1) right_half.double_size();
+		right_half.length = new_length;
+		for (int i = 0; i < new_length; ++i) right_half.arr[i] = arr[i];
+		for (int i = new_length - 1; i > 0; --i) {
+			if (right_half.arr[i] == 0) right_half.length--;
+			else break;
+		}
+		return right_half;
 	}
 
 	bool is_zero() {
@@ -223,8 +250,26 @@ public:
 		else return x + z.left_shift();
 	}
 
+	Binary multiply2(Binary& x, Binary& y) {
+		int n = max(x.length, y.length);
+		if (n == 1) {
+			if (x.is_zero() || y.is_zero()) return get_zero();
+			else return get_one();
+		}
+		Binary xl = x.get_leftmost(n / 2);
+		Binary xr = x.get_rightmost(n / 2);
+		Binary yl = y.get_leftmost(n / 2);
+		Binary yr = y.get_rightmost(n / 2);
+		Binary xlr = xl + xr;
+		Binary ylr = yl + yr;
+		Binary P1 = multiply2(xl, yl);
+		Binary P2 = multiply2(xr, yr);
+		Binary P3 = multiply2(xlr, ylr);
+		return P1.left_shift(n/2).left_shift(n/2) + (P3 - P1 - P2).left_shift(n / 2) + P2;
+	}
+
 	Binary operator*(Binary& num) {
-		return multiply(*this, num);
+		return multiply2(*this, num);
 	}
 
 	pair<Binary, Binary> divide(Binary& x, Binary& y) {
@@ -253,42 +298,46 @@ public:
 		return res.second;
 	}
 
-};
 
-// Input: a binary number
-// Without an input checker
-istream& operator>>(istream& in, Binary& num) {
-	int len = 0;
-	char c;
-	while ((c = in.get()) != '\n') {
-		while (num.MAX_LEN < len + 2) num.double_size();
-		num.arr[len] = c - '0';
-		len++;
-		num.length = len;
-	}
-	int i = 0;
-	int j = len - 1;
-	char tmp;
-	while (i < j && i<len && j>=0) {
-		tmp = num.arr[i];
-		num.arr[i] = num.arr[j];
-		num.arr[j] = tmp;
-		i++; j--;
-	}
-	return in;
-}
 
-ostream& operator<<(ostream& out, const Binary& num) {
-	if (num.length == 0) {
-		out << "NULL";
+	// Input: a binary number
+    // Without an input checker
+	friend istream& operator>>(istream& in, Binary& num) {
+		int len = 0;
+		char c;
+		while ((c = in.get()) != '\n') {
+			while (num.MAX_LEN < len + 2) num.double_size();
+			num.arr[len] = c - '0';
+			len++;
+			num.length = len;
+		}
+		int i = 0;
+		int j = len - 1;
+		char tmp;
+		while (i < j && i < len && j >= 0) {
+			tmp = num.arr[i];
+			num.arr[i] = num.arr[j];
+			num.arr[j] = tmp;
+			i++; j--;
+		}
+		return in;
+	}
+
+	friend ostream& operator<<(ostream& out, const Binary& num) {
+		if (num.length == 0) {
+			out << "NULL";
+			return out;
+		}
+		for (int i = num.length - 1; i >= 0; --i)
+		{
+			out << num.arr[i];
+		}
 		return out;
 	}
-	for (int i = num.length - 1; i >= 0; --i)
-	{
-		out << num.arr[i];
-	}
-	return out;
-}
+
+};
+
+
 
 
 #endif
