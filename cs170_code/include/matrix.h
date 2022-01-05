@@ -7,84 +7,84 @@ template<class T>
 class Matrix {
 public:
 	T** element;
-	int rowNum;
-	int colNum;
+	int row_size;
+	int col_size;
 
 	Matrix() {}
 
-	Matrix(int rowNum, int colNum) {
-		if (rowNum < 0 || colNum < 0)
-			throw "rowNum and colNum are positive!";
-		if ((rowNum == 0 || colNum == 0) && (rowNum != 0 || colNum != 0))
+	Matrix(int row_size, int col_size) {
+		if (row_size < 0 || col_size < 0)
+			throw "row_size and col_size are positive!";
+		if ((row_size == 0 || col_size == 0) && (row_size != 0 || col_size != 0))
 			throw "Invalid params!";
-		this->rowNum = rowNum;
-		this->colNum = colNum;
-		element = new T * [rowNum];
-		for (int i = 0; i < rowNum; i++) {
-			element[i] = new T[colNum];
+		this->row_size = row_size;
+		this->col_size = col_size;
+		element = new T * [row_size];
+		for (int i = 0; i < row_size; i++) {
+			element[i] = new T[col_size];
 		}
 	}
 
-	Matrix(int rowNum, int colNum, T val) {
-		if (rowNum < 0 || colNum < 0)
-			throw "rowNum and colNum are positive!";
-		if ((rowNum == 0 || colNum == 0) && (rowNum != 0 || colNum != 0))
+	Matrix(int row_size, int col_size, T val) {
+		if (row_size < 0 || col_size < 0)
+			throw "row_size and col_size are positive!";
+		if ((row_size == 0 || col_size == 0) && (row_size != 0 || col_size != 0))
 			throw "Invalid params!";
-		this->rowNum = rowNum;
-		this->colNum = colNum;
-		element = new T * [rowNum];
-		for (int i = 0; i < rowNum; i++) {
-			element[i] = new T[colNum];
+		this->row_size = row_size;
+		this->col_size = col_size;
+		element = new T * [row_size];
+		for (int i = 0; i < row_size; i++) {
+			element[i] = new T[col_size];
 		}
-		for (int i = 0; i < rowNum; i++) {
-			for (int j = 0; j < colNum; j++) {
-				element[i][j] = 0;
+		for (int i = 0; i < row_size; i++) {
+			for (int j = 0; j < col_size; j++) {
+				element[i][j] = val;
 			}
 		}
 	}
 
 
 	Matrix(const Matrix<T>& m) {
-		rowNum = m.rowNum;
-		colNum = m.colNum;
-		element = new T * [rowNum];
-		for (int i = 0; i < rowNum; i++) {
-			element[i] = new T[colNum];
+		row_size = m.row_size;
+		col_size = m.col_size;
+		element = new T * [row_size];
+		for (int i = 0; i < row_size; i++) {
+			element[i] = new T[col_size];
 		}
-		for (int i = 0; i < rowNum; i++) {
-			for (int j = 0; j < colNum; j++) {
+		for (int i = 0; i < row_size; i++) {
+			for (int j = 0; j < col_size; j++) {
 				element[i][j] = m.element[i][j];
 			}
 		}
 	}
 
 	~Matrix() {
-		for (int i = 0; i < rowNum; i++) {
+		for (int i = 0; i < row_size; i++) {
 			delete[] element[i];
 		}
 		delete[] element;
 	}
 
 	T& operator()(int i, int j) {
-		if (i < 1 || i > rowNum|| j < 1 || j > colNum)
+		if (i < 1 || i > row_size|| j < 1 || j > col_size)
 			throw "out of index!";
 		return element[i - 1][j - 1];
 	}
 
 	Matrix<T>& operator=(const Matrix<T>& m) {
 		if (this != &m) {
-			for (int i = 0; i < rowNum; i++) {
+			for (int i = 0; i < row_size; i++) {
 				delete[] element[i];
 			}
 			delete[] element;
-			rowNum = m.rowNum;
-			colNum = m.colNum;
-			element = new T * [rowNum];
-			for (int i = 0; i < rowNum; i++) {
-				element[i] = new T[colNum];
+			row_size = m.row_size;
+			col_size = m.col_size;
+			element = new T * [row_size];
+			for (int i = 0; i < row_size; i++) {
+				element[i] = new T[col_size];
 			}
-			for (int i = 0; i < rowNum; i++) {
-				for (int j = 0; j < colNum; j++) {
+			for (int i = 0; i < row_size; i++) {
+				for (int j = 0; j < col_size; j++) {
 					element[i][j] = m.element[i][j];
 				}
 			}
@@ -93,11 +93,11 @@ public:
 	}
 
 	Matrix<T> operator+(const Matrix<T>& m) {
-		if (rowNum != m.rowNum || colNum != m.colNum)
+		if (row_size != m.row_size || col_size != m.col_size)
 			throw "Dimension not match!";
-		Matrix<T> res(rowNum, colNum);
-		for (int i = 0; i < rowNum; i++) {
-			for (int j = 0; j < colNum; j++) {
+		Matrix<T> res(row_size, col_size);
+		for (int i = 0; i < row_size; i++) {
+			for (int j = 0; j < col_size; j++) {
 				res.element[i][j] = element[i][j] + m.element[i][j];
 			}
 		}
@@ -105,11 +105,11 @@ public:
 	}
 
 	Matrix<T> operator-(const Matrix<T>& m) {
-		if (rowNum != m.rowNum || colNum != m.colNum)
+		if (row_size != m.row_size || col_size != m.col_size)
 			throw "Dimension not match!";
-		Matrix<T> res(rowNum, colNum);
-		for (int i = 0; i < rowNum; i++) {
-			for (int j = 0; j < colNum; j++) {
+		Matrix<T> res(row_size, col_size);
+		for (int i = 0; i < row_size; i++) {
+			for (int j = 0; j < col_size; j++) {
 				res.element[i][j] = element[i][j] - m.element[i][j];
 			}
 		}
@@ -117,24 +117,22 @@ public:
 	}
 
 	Matrix<T> operator-() {
-		Matrix<T> res(rowNum, colNum);
-		for (int i = 0; i < rowNum; i++) {
-			for (int j = 0; j < colNum; j++) {
+		Matrix<T> res(row_size, col_size);
+		for (int i = 0; i < row_size; i++) {
+			for (int j = 0; j < col_size; j++) {
 				res.element[i][j] = -element[i][j];
 			}
 		}
 		return res;
 	}
 
-	Matrix<T> operator*(const Matrix<T>& m) {
-		if (colNum != m.rowNum)
-			throw "Dimension not match!";
-		Matrix<T> res(rowNum, m.colNum);
-		for (int i = 0; i < rowNum; i++) {
-			for (int j = 0; j < m.colNum; j++) {
+	Matrix<T> multiply(Matrix<T>& X, Matrix<T>& Y) {
+		Matrix<T> res(X.row_size, Y.col_size);
+		for (int i = 0; i < X.row_size; i++) {
+			for (int j = 0; j < Y.col_size; j++) {
 				T val = 0;
-				for (int k = 0; k < colNum; k++) {
-					val += element[i][k] * m.element[k][j];
+				for (int k = 0; k < X.col_size; k++) {
+					val += X.element[i][k] * Y.element[k][j];
 				}
 				res.element[i][j] = val;
 			}
@@ -142,10 +140,73 @@ public:
 		return res;
 	}
 
+	// Strassen
+	Matrix<T> multiply2(Matrix<T>& X, Matrix<T>& Y) {
+		if (X.row_size == 1 && X.col_size == 1 && Y.row_size == 1 && Y.col_size == 1) {
+			Matrix<T> res(1, 1, X(1, 1) * Y(1, 1));
+			return res;
+		}
+
+		int X_block_row_size = X.row_size % 2 == 0 ? X.row_size / 2 : X.row_size / 2 + 1;
+		int X_block_col_size = X.col_size % 2 == 0 ? X.col_size / 2 : X.col_size / 2 + 1;
+		int Y_block_row_size = Y.row_size % 2 == 0 ? Y.row_size / 2 : Y.row_size / 2 + 1;
+		int Y_block_col_size = Y.col_size % 2 == 0 ? Y.col_size / 2 : Y.col_size / 2 + 1;
+		Matrix<T> A(X_block_row_size, X_block_col_size, 0);
+		Matrix<T> B(X_block_row_size, X_block_col_size, 0);
+		Matrix<T> C(X_block_row_size, X_block_col_size, 0);
+		Matrix<T> D(X_block_row_size, X_block_col_size, 0);
+		Matrix<T> E(Y_block_row_size, Y_block_col_size, 0);
+		Matrix<T> F(Y_block_row_size, Y_block_col_size, 0);
+		Matrix<T> G(Y_block_row_size, Y_block_col_size, 0);
+		Matrix<T> H(Y_block_row_size, Y_block_col_size, 0);
+		for (int i = 1; i <= X.row_size; ++i) {
+			for (int j = 1; j <= X.col_size; ++j) {
+				if (i <= X_block_row_size && j <= X_block_col_size) A(i, j) = X(i, j);
+				else if (i <= X_block_row_size && j > X_block_col_size) B(i, j-X_block_col_size) = X(i, j);
+				else if (i > X_block_row_size && j <= X_block_col_size) C(i-X_block_row_size, j) = X(i, j);
+				else D(i-X_block_row_size, j-X_block_col_size) = X(i, j);
+			}
+		}
+		for (int i = 1; i <= Y.row_size; ++i) {
+			for (int j = 1; j <= Y.col_size; ++j) {
+				if (i <= Y_block_row_size && j <= Y_block_col_size) E(i, j) = Y(i, j);
+				else if (i <= Y_block_row_size && j > Y_block_col_size) F(i, j-Y_block_col_size) = Y(i, j);
+				else if (i > Y_block_row_size && j <= Y_block_col_size) G(i-Y_block_row_size, j) = Y(i, j);
+				else H(i-Y_block_row_size, j-Y_block_col_size) = Y(i, j);
+			}
+		}
+		
+		Matrix<T> FH = F - H; Matrix<T> P1 = multiply2(A, FH);
+		Matrix<T> AB = A + B; Matrix<T> P2 = multiply2(AB, H);
+		Matrix<T> CD = C + D; Matrix<T> P3 = multiply2(CD, E);
+		Matrix<T> GE = G - E; Matrix<T> P4 = multiply2(D, GE);
+		Matrix<T> AD = A + D; Matrix<T> EH = E + H; Matrix<T> P5 = multiply2(AD, EH);
+		Matrix<T> BD = B - D; Matrix<T> GH = G + H; Matrix<T> P6 = multiply2(BD, GH);
+		Matrix<T> AC = A - C; Matrix<T> EF = E + F; Matrix<T> P7 = multiply2(AC, EF);
+		Matrix<T> XY1 = P5 + P4 - P2 + P6;
+		Matrix<T> XY2 = P1 + P2;
+		Matrix<T> XY3 = P3 + P4;
+		Matrix<T> XY4 = P1 + P5 - P3 - P7;
+		Matrix<T> res(X.row_size, Y.col_size);
+		for (int i = 1; i <= X.row_size; ++i) {
+			for (int j = 1; j <= Y.col_size; ++j) {
+				if (i <= X_block_row_size && j <= Y_block_col_size) res(i, j) = XY1(i, j);
+				else if (i <= X_block_row_size && j > Y_block_col_size) res(i, j) = XY2(i, j-Y_block_col_size);
+				else if (i > X_block_row_size && j <= Y_block_col_size) res(i, j) = XY3(i-X_block_row_size, j);
+				else res(i, j) = XY4(i-X_block_row_size, j-Y_block_col_size);
+			}
+		}
+		return res;
+ 	}
+
+	Matrix<T> operator*(Matrix<T>& m) {
+		return multiply2(*this, m);
+	}
+
 	Matrix<T> operator*(T val) {
-		Matrix<T> res(rowNum, colNum);
-		for (int i = 0; i < rowNum; i++) {
-			for (int j = 0; j < colNum; j++) {
+		Matrix<T> res(row_size, col_size);
+		for (int i = 0; i < row_size; i++) {
+			for (int j = 0; j < col_size; j++) {
 				res.element[i][j] = val * element[i][j];
 			}
 		}
@@ -156,9 +217,9 @@ public:
 		if (val == 0) {
 			throw "divisor 0";
 		}
-		Matrix<T> res(rowNum, colNum);
-		for (int i = 0; i < rowNum; i++) {
-			for (int j = 0; j < colNum; j++) {
+		Matrix<T> res(row_size, col_size);
+		for (int i = 0; i < row_size; i++) {
+			for (int j = 0; j < col_size; j++) {
 				res.element[i][j] = element[i][j] / val;
 			}
 		}
@@ -166,9 +227,9 @@ public:
 	}
 
 	Matrix<T> transpose() {
-		Matrix<T> res(colNum, rowNum);
-		for (int i = 0; i < colNum; i++) {
-			for (int j = 0; j < rowNum; j++) {
+		Matrix<T> res(col_size, row_size);
+		for (int i = 0; i < col_size; i++) {
+			for (int j = 0; j < row_size; j++) {
 				res.element[i][j] = element[j][i];
 			}
 		}
@@ -177,10 +238,10 @@ public:
 
 
 	pair<Matrix<T>, Matrix<T>> LU_factorization() {
-		Matrix<T> L(rowNum, colNum, 0);
-		Matrix<T> U(rowNum, colNum, 0);
-		for (int i = 0; i < rowNum; i++) {
-			for (int j = i; j < colNum; j++) {
+		Matrix<T> L(row_size, col_size, 0);
+		Matrix<T> U(row_size, col_size, 0);
+		for (int i = 0; i < row_size; i++) {
+			for (int j = i; j < col_size; j++) {
 				T sum = 0;
 				for (int k = 0; k < i; k++) {
 					sum += L.element[i][k] * U.element[k][j];
@@ -189,7 +250,7 @@ public:
 
 			}
 
-			for (int j = i + 1; j < rowNum; j++) {
+			for (int j = i + 1; j < row_size; j++) {
 				T sum = 0;
 				for (int k = 0; k < i; k++) {
 					sum += L.element[j][k] * U.element[k][i];
@@ -205,10 +266,10 @@ public:
 		pair<Matrix<T>, Matrix<T>> res = this->LU_factorization();
 		Matrix<T> L = res.first;
 		Matrix<T> U = res.second;
-		Matrix<T> inversedL(rowNum, colNum, 0);
-		Matrix<T> inversedU(rowNum, colNum, 0);
-		for (int i = 0; i < colNum; i++) {
-			for (int j = 0; j < rowNum; j++) {
+		Matrix<T> inversedL(row_size, col_size, 0);
+		Matrix<T> inversedU(row_size, col_size, 0);
+		for (int i = 0; i < col_size; i++) {
+			for (int j = 0; j < row_size; j++) {
 				if (i == j) {
 					if (L.element[i][i] == 0) {
 						throw "Not exist!";
@@ -230,8 +291,8 @@ public:
 				}
 			}
 		}
-		for (int p = 0; p < colNum; p++) {
-			for (int i = 0; i < rowNum - p; i++) {
+		for (int p = 0; p < col_size; p++) {
+			for (int i = 0; i < row_size - p; i++) {
 				int j = i + p;
 				if (i == j) {
 					if (U.element[i][i] == 0) {
@@ -253,17 +314,20 @@ public:
 		}
 		return inversedU * inversedL;
 	}
+
+	template<class T>
+	friend ostream& operator<<(ostream& out, const Matrix<T>& m) {
+		for (int i = 0; i < m.row_size; i++)
+		{
+			for (int j = 0; j < m.col_size; j++)
+				out << m.element[i][j] << " ";
+			out << endl;
+		}
+		return out;
+	}
+
 };
 
-template<class T>
-ostream& operator<<(ostream& out, const Matrix<T>& m) {
-	for (int i = 0; i < m.rowNum; i++)
-	{
-		for (int j = 0; j < m.colNum; j++)
-			out << m.element[i][j] << " ";
-		out << endl;
-	}
-	return out;
-}
+
 
 #endif
