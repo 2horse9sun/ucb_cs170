@@ -10,8 +10,8 @@
 
 using namespace std;
 
-int PAGE_SIZE = 1024; // 4KB
-int RAM_PAGE_NUM = 1000;
+int PAGE_SIZE = 1024; // 4KB, one page need one I/O
+int RAM_PAGE_NUM = 1000; // available RAM size
 
 
 
@@ -157,7 +157,7 @@ int fill_input_buffer(vector<string> file_names, int** input_buffer, int* input_
 		if (input_buffer_index[i] == -1 && input_file_index[i] != -1) {
 			int line_num = read_line(file_names[i], input_file_index[i] * PAGE_SIZE, PAGE_SIZE, input_buffer[i], true);
 			fill_num += line_num;
-			if (line_num < PAGE_SIZE) input_file_index[i] = -1;
+			if (line_num < PAGE_SIZE) input_file_index[i] = -1; // indicate that input_file drains out
 			else input_file_index[i]++;
 			input_buffer_index[i] = line_num - 1;
 		}
@@ -188,30 +188,41 @@ string merge_files(vector<string> file_names, int start, int size, int** input_b
 	int file_num = min(size, (int)file_names.size() - start);
 	vector<string> file_list;
 	for (int i = 0; i < file_num; ++i) file_list.push_back(file_names[start + i]);
+	// the smallest element's index in input_buffer[i]
 	int* input_buffer_index = new int[file_num];
 	for (int i = 0; i < file_num; ++i) input_buffer_index[i] = -1;
+	// the current size of output_buffer
 	int output_buffer_index = 0;
+	// the next position to read in file_list[i]
 	int* input_file_index = new int[file_num];
 	for (int i = 0; i < file_num; ++i) input_file_index[i] = 0;
 
 	string output_file_name = file_names[start] + to_string(start);
+	// first fill working input_buffers
 	int input_buffer_size = fill_input_buffer(file_list, input_buffer, input_buffer_index, input_file_index);
+	// keep draining working input_buffers
 	while (input_buffer_size > 0) {
+		// fill the output_buffer till full
 		while (output_buffer_index < PAGE_SIZE) {
+			// find the smallest element in working input_buffers
 			if (input_buffer_size > 0) {
 				int min_index = find_min(input_buffer, input_buffer_index, file_num);
 				output_buffer[output_buffer_index++] = input_buffer[min_index][input_buffer_index[min_index]];
 				input_buffer_index[min_index]--;
 				input_buffer_size--;
+				// if one of the working input_buffers drains out, refill it
 				if (input_buffer_index[min_index] < 0) {
 					int fill_num = fill_input_buffer(file_list, input_buffer, input_buffer_index, input_file_index);
 					input_buffer_size += fill_num;
 				}
 			}
+			// no element in working input_buffers
 			else break;
 		}
+		// flush sorted elements into a new file
 		flush_output_buffer(output_file_name, output_buffer, output_buffer_index);
 		output_buffer_index = 0;
+		// make sure input_files also drain out
 		int fill_num = fill_input_buffer(file_list, input_buffer, input_buffer_index, input_file_index);
 		input_buffer_size += fill_num;
 	}
@@ -239,6 +250,7 @@ vector<string> external_merge(vector<string> file_names, int* buffer) {
 
 
 void external_mergesort(string file_name) {
+	// available RAM
 	int* buffer = new int[RAM_PAGE_NUM * PAGE_SIZE];
 
 	vector<string> output_file_names = external_conquer(file_name, buffer);
