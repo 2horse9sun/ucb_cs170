@@ -5,6 +5,7 @@
 #include <limits>
 #include <algorithm>
 #include <stdio.h>
+#include <random>
 #include "../include/chap2.h"
 
 using namespace std;
@@ -82,10 +83,17 @@ void mergesort(int* a, int l, int r) {
 
 void gen_random_int_file(string file_name, long size) {
 	fstream file(file_name, fstream::out | fstream::trunc);
+	/* Seed */
+	random_device rd;
+	/* Random number generator */
+	default_random_engine generator(rd());
+	/* Distribution on which to apply the generator */
+	uniform_int_distribution<int> distribution(0, INT_MAX);
 	for (long i = 0; i < size; ++i) {
-		file << rand();
+		file << distribution(generator);
 		file << '\n';
 	}
+	cout << "random file generated!" << endl;
 }
 
 int read_line(string file_name, int start, int size, int* buffer, bool reverse = false) {
@@ -166,8 +174,7 @@ int find_min(int** input_buffer, int* input_buffer_index, int file_num) {
 			min_index = i;
 		}
 	}
-	input_buffer_index[min_index]--;
-	return min_val;
+	return min_index;
 }
 
 int flush_output_buffer(string output_file_name, int* output_buffer, int output_buffer_index) {
@@ -191,11 +198,15 @@ string merge_files(vector<string> file_names, int start, int size, int** input_b
 	int input_buffer_size = fill_input_buffer(file_list, input_buffer, input_buffer_index, input_file_index);
 	while (input_buffer_size > 0) {
 		while (output_buffer_index < PAGE_SIZE) {
-			int fill_num = fill_input_buffer(file_list, input_buffer, input_buffer_index, input_file_index);
-			input_buffer_size += fill_num;
 			if (input_buffer_size > 0) {
-				output_buffer[output_buffer_index++] = find_min(input_buffer, input_buffer_index, file_num);
+				int min_index = find_min(input_buffer, input_buffer_index, file_num);
+				output_buffer[output_buffer_index++] = input_buffer[min_index][input_buffer_index[min_index]];
+				input_buffer_index[min_index]--;
 				input_buffer_size--;
+				if (input_buffer_index[min_index] < 0) {
+					int fill_num = fill_input_buffer(file_list, input_buffer, input_buffer_index, input_file_index);
+					input_buffer_size += fill_num;
+				}
 			}
 			else break;
 		}
