@@ -1,14 +1,15 @@
 #include <iostream>
+#include "./include/matrix.h"
+#include "./include/complex.h"
 #include "./include/chap0.h"
 #include "./include/chap1.h"
 #include "./include/chap2.h"
-#include "./include/matrix.h"
+
 
 
 
 int main()
 {   
-    
 
     while (true) {
 
@@ -28,16 +29,18 @@ int main()
         //primality2_test();
         //primality3_test();
         //gen_random_prime_test();
-        //naive_AES_test();
-        //naive_RSA_test();
+        //naive_aes_test();
+        //naive_rsa_test();
 
-        //mergesort_test();
         //quicksort_test();
-        
+        //mergesort_test();
+        //external_mergesort_test();
         //select_test();
 
-        external_mergesort_test();
+        //FFT_test();
 
     }
+
+
 }
 

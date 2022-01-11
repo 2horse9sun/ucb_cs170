@@ -152,6 +152,7 @@
     <ClInclude Include="include\chap0.h" />
     <ClInclude Include="include\chap1.h" />
     <ClInclude Include="include\chap2.h" />
+    <ClInclude Include="include\complex.h" />
     <ClInclude Include="include\matrix.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

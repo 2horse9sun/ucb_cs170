@@ -6,6 +6,9 @@
 #include <algorithm>
 #include <stdio.h>
 #include <random>
+#include <cmath>
+#include <math.h>
+#include "../include/complex.h"
 #include "../include/chap2.h"
 
 using namespace std;
@@ -13,6 +16,7 @@ using namespace std;
 int PAGE_SIZE = 1024; // 4KB, one page need one I/O
 int RAM_PAGE_NUM = 1000; // available RAM size
 
+//const double PI = acos(-1.0);
 
 
 void swap(int* a, int i, int j) {
@@ -70,6 +74,8 @@ void merge(int* a, int l, int m, int r) {
 	}
 	while (i < m - l) a[k++] = left[i++];
 	while (j < m - l) a[k++] = right[j++];
+	delete[] left;
+	delete[] right;
 }
 
 void mergesort(int* a, int l, int r) {
@@ -96,14 +102,34 @@ void gen_random_int_file(string file_name, long size) {
 	cout << "random file generated!" << endl;
 }
 
-int read_line(string file_name, int start, int size, int* buffer, bool reverse = false) {
+//int read_line(string file_name, int start, int size, int* buffer, bool reverse = false) {
+//	int line_num = 0;
+//	fstream file(file_name, fstream::in);
+//	file.seekg(ios::beg);
+//	for (int i = 0; i < start; ++i) {
+//		if (file.eof()) return 0;
+//		file.ignore(numeric_limits<streamsize>::max(), '\n');
+//	}
+//	int num;
+//	for (int i = 0; i < size; ++i) {
+//		if (file >> num) {
+//			line_num++;
+//			buffer[i] = num;
+//		}
+//	}
+//	if (reverse) {
+//		int i = 0; int j = line_num-1;
+//		while (i < j) {
+//			int tmp = buffer[i];
+//			buffer[i++] = buffer[j];
+//			buffer[j--] = tmp;
+//		}
+//	}
+//	return line_num;
+//}
+
+int read_line(fstream& file, int size, int* buffer, bool reverse = false) {
 	int line_num = 0;
-	fstream file(file_name, fstream::in);
-	file.seekg(ios::beg);
-	for (int i = 0; i < start; ++i) {
-		if (file.eof()) return 0;
-		file.ignore(numeric_limits<streamsize>::max(), '\n');
-	}
 	int num;
 	for (int i = 0; i < size; ++i) {
 		if (file >> num) {
@@ -112,12 +138,23 @@ int read_line(string file_name, int start, int size, int* buffer, bool reverse =
 		}
 	}
 	if (reverse) {
-		int i = 0; int j = line_num-1;
+		int i = 0; int j = line_num - 1;
 		while (i < j) {
 			int tmp = buffer[i];
 			buffer[i++] = buffer[j];
 			buffer[j--] = tmp;
 		}
+	}
+	return line_num;
+}
+
+int write_line(fstream& file, int size, int* buffer) {
+	int line_num = 0;
+	file.seekg(ios::end);
+	for (int i = 0; i < size; ++i) {
+		line_num++;
+		file << buffer[i];
+		file << '\n';
 	}
 	return line_num;
 }
@@ -137,25 +174,28 @@ int write_line(string file_name, int size, int* buffer) {
 
 vector<string> external_conquer(string file_name, int* buffer) {
 	vector<string> output_file_names;
-	int curr_file_index = 0;
+	//int curr_file_index = 0;
 	int sorted_file_num = 0;
 	int line_num = 0;
-	while ((line_num = read_line(file_name, curr_file_index, RAM_PAGE_NUM * PAGE_SIZE, buffer)) > 0) {
-		curr_file_index += line_num;
+	fstream rfile(file_name, fstream::in);
+	while ((line_num = read_line(rfile, RAM_PAGE_NUM * PAGE_SIZE, buffer)) > 0) {
+		//curr_file_index += line_num;
 		mergesort(buffer, 0, line_num);
 		string output_file_name = file_name + to_string(sorted_file_num++);
-		write_line(output_file_name, line_num, buffer);
+		fstream wfile(output_file_name, fstream::out | fstream::app);
+		write_line(wfile, line_num, buffer);
+		wfile.close();
 		output_file_names.push_back(output_file_name);
 	}
+	rfile.close();
 	return output_file_names;
 }
 
-int fill_input_buffer(vector<string> file_names, int** input_buffer, int* input_buffer_index,  int* input_file_index) {
+int fill_input_buffer(fstream* rfiles, int file_num, int** input_buffer, int* input_buffer_index,  int* input_file_index) {
 	int fill_num = 0;
-	int file_num = file_names.size();
 	for (int i = 0; i < file_num; ++i) {
 		if (input_buffer_index[i] == -1 && input_file_index[i] != -1) {
-			int line_num = read_line(file_names[i], input_file_index[i] * PAGE_SIZE, PAGE_SIZE, input_buffer[i], true);
+			int line_num = read_line(rfiles[i], PAGE_SIZE, input_buffer[i], true);
 			fill_num += line_num;
 			if (line_num < PAGE_SIZE) input_file_index[i] = -1; // indicate that input_file drains out
 			else input_file_index[i]++;
@@ -177,9 +217,9 @@ int find_min(int** input_buffer, int* input_buffer_index, int file_num) {
 	return min_index;
 }
 
-int flush_output_buffer(string output_file_name, int* output_buffer, int output_buffer_index) {
+int flush_output_buffer(fstream& wfile, int* output_buffer, int output_buffer_index) {
 	int flush_num = 0;
-	int line_num = write_line(output_file_name, output_buffer_index, output_buffer);
+	int line_num = write_line(wfile, output_buffer_index, output_buffer);
 	flush_num += line_num;
 	return flush_num;
 }
@@ -198,8 +238,11 @@ string merge_files(vector<string> file_names, int start, int size, int** input_b
 	for (int i = 0; i < file_num; ++i) input_file_index[i] = 0;
 
 	string output_file_name = file_names[start] + to_string(start);
+	fstream* rfiles = new fstream[file_num];
+	for (int i = 0; i < file_num; ++i) rfiles[i] = fstream(file_list[i], fstream::in);
+	fstream wfile(output_file_name, fstream::out | fstream::app);
 	// first fill working input_buffers
-	int input_buffer_size = fill_input_buffer(file_list, input_buffer, input_buffer_index, input_file_index);
+	int input_buffer_size = fill_input_buffer(rfiles, file_num, input_buffer, input_buffer_index, input_file_index);
 	// keep draining working input_buffers
 	while (input_buffer_size > 0) {
 		// fill the output_buffer till full
@@ -212,7 +255,7 @@ string merge_files(vector<string> file_names, int start, int size, int** input_b
 				input_buffer_size--;
 				// if one of the working input_buffers drains out, refill it
 				if (input_buffer_index[min_index] < 0) {
-					int fill_num = fill_input_buffer(file_list, input_buffer, input_buffer_index, input_file_index);
+					int fill_num = fill_input_buffer(rfiles, file_num, input_buffer, input_buffer_index, input_file_index);
 					input_buffer_size += fill_num;
 				}
 			}
@@ -220,21 +263,22 @@ string merge_files(vector<string> file_names, int start, int size, int** input_b
 			else break;
 		}
 		// flush sorted elements into a new file
-		flush_output_buffer(output_file_name, output_buffer, output_buffer_index);
+		flush_output_buffer(wfile, output_buffer, output_buffer_index);
 		output_buffer_index = 0;
 		// make sure input_files also drain out
-		int fill_num = fill_input_buffer(file_list, input_buffer, input_buffer_index, input_file_index);
+		int fill_num = fill_input_buffer(rfiles, file_num, input_buffer, input_buffer_index, input_file_index);
 		input_buffer_size += fill_num;
 	}
+	for (int i = 0; i < file_num; ++i) rfiles[i].close();
+	wfile.close();
+	delete[] rfiles;
+	delete[] input_buffer_index;
+	delete[] input_file_index;
 	return output_file_name;
 }
 
-vector<string> external_merge(vector<string> file_names, int* buffer) {
+vector<string> external_merge(vector<string> file_names, int** input_buffer, int* output_buffer) {
 	vector<string> output_file_names;
-	int** input_buffer = new int* [RAM_PAGE_NUM - 1];
-	for (int i = 0; i < RAM_PAGE_NUM - 1; ++i) input_buffer[i] = buffer + i * PAGE_SIZE;
-	int* output_buffer = buffer + (RAM_PAGE_NUM - 1) * PAGE_SIZE;
-
 	int file_num = file_names.size();
 	int merge_times = file_num / (RAM_PAGE_NUM - 1) + (file_num % (RAM_PAGE_NUM - 1) == 0 ? 0 : 1);
 	for (int i = 0; i < merge_times; ++i) {
@@ -255,21 +299,18 @@ void external_mergesort(string file_name) {
 
 	vector<string> output_file_names = external_conquer(file_name, buffer);
 
+	int** input_buffer = new int* [RAM_PAGE_NUM - 1];
+	for (int i = 0; i < RAM_PAGE_NUM - 1; ++i) input_buffer[i] = buffer + i * PAGE_SIZE;
+	int* output_buffer = buffer + (RAM_PAGE_NUM - 1) * PAGE_SIZE;
 	while (output_file_names.size() > 1) {
-		output_file_names = external_merge(output_file_names, buffer);
+		output_file_names = external_merge(output_file_names, input_buffer, output_buffer);
 	}
 	remove((file_name + "_sorted").c_str());
 	rename(output_file_names[0].c_str(), (file_name + "_sorted").c_str());
-	
+
+	delete[] input_buffer;
+	delete[] buffer;
 }
-
-
-
-
-
-
-
-
 
 
 pair<int, int> split(int* a, int l, int r, int val) {
@@ -299,4 +340,55 @@ int select(int* a, int l, int r, int k) {
 	if (k <= lb - l) return select(a, l, lb, k);
 	else if (k > ub - l) return select(a, ub, r, k - ub + l);
 	else return val;
+}
+
+
+
+int find_nearest_two_pow(int len) {
+	for (int i = 1; ; ++i) {
+		int power = (int)pow(2, i);
+		if (power >= len) {
+			return power;
+		}
+	}
+}
+
+
+// n is power of 2, if not, add zeros
+// n-point DFT
+Complex* do_FFT(Complex* a, int n, double inverse) {
+	if (n == 1) return a;
+	Complex w_n(cos(inverse * 2 * PI / n), sin(inverse * 2 * PI / n));
+	Complex w(1.0);
+	Complex* a_e = new Complex[n / 2];
+	Complex* a_o = new Complex[n / 2];
+	Complex* y = new Complex[n];
+
+	for (int i = 0; i < n; ++i) {
+		if (i % 2 == 0) a_e[i / 2] = a[i];
+		else a_o[i / 2] = a[i];
+	}
+	Complex* y_e = do_FFT(a_e, n / 2, inverse);
+	Complex* y_o = do_FFT(a_o, n / 2, inverse);
+
+	for (int i = 0; i < n / 2; ++i) {
+		y[i] = y_e[i] + w * y_o[i];
+		y[i + n / 2] = y_e[i] - w * y_o[i];
+		w = w * w_n;
+	}
+	return y;
+}
+
+Complex* FFT(Complex* a, int n) {
+	if (n == 1) return a;
+	Complex* y = do_FFT(a, n, -1);
+	return y;
+}
+
+
+Complex* IFFT(Complex* y, int n) {
+	if (n == 1) return y;
+	Complex* a = do_FFT(y, n, 1);
+	for (int i = 0; i < n; ++i) a[i] = a[i] / (double)n;
+	return a;
 }

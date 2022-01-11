@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include "../include/binary.h"
+#include "../include/complex.h"
 #include "../include/matrix.h"
 #include "../include/chap2.h"
 
@@ -105,6 +106,41 @@ void select_test() {
     start = clock();
 
     std::cout << "k'th smallest element: " << select(a, 0, len, k) << endl;
+
+    end = clock();
+    std::cout << "time = " << (double(end - start) / CLOCKS_PER_SEC) * 1000 << "ms" << std::endl;
+    std::cout << "======================================" << std::endl;
+}
+
+
+void FFT_test() {
+    std::cout << "FFT_test" << std::endl;
+    std::cout << "Input numbers separated by space: ";
+    Complex* input = new Complex[64];
+    double num = 0;
+    int len = 0;
+    cin >> num;
+    input[len] = Complex(num);
+    len++;
+    while (cin.get() != '\n') {
+        cin >> num;
+        input[len] = Complex(num);
+        len++;
+    }
+    clock_t start, end;
+    start = clock();
+
+    int n = find_nearest_two_pow(len);
+    Complex* a = new Complex[n];
+    for (int i = 0; i < n; ++i) a[i] = i < len ? input[i] : Complex(0);
+    Complex* y = FFT(a, n);
+    std::cout << "FFT: " << endl;
+    for (int i = 0; i < n; ++i) cout << y[i] << " ";
+    cout << endl;
+    Complex* aa = IFFT(y, n);
+    std::cout << "IFFT: " << endl;
+    for (int i = 0; i < n; ++i) cout << aa[i] << " ";
+    cout << endl;
 
     end = clock();
     std::cout << "time = " << (double(end - start) / CLOCKS_PER_SEC) * 1000 << "ms" << std::endl;

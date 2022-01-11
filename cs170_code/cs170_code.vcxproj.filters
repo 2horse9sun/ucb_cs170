@@ -53,5 +53,8 @@
     <ClInclude Include="include\chap2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\complex.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
