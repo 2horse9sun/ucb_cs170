@@ -3,9 +3,8 @@
 #include<iostream>
 #include<math.h>
 #include<cmath>
+#include "../include/constant.h"
 using namespace std;
-const double PI = acos(-1.0);
-const double err = 1e-12;
 
 class Complex {
 public:
@@ -72,16 +71,24 @@ public:
 		return Complex(real+num.real, imaginary+num.imaginary);
 	}
 
+	friend Complex operator+(const Complex& num1, const Complex& num2) {
+		return num1 + num2;
+	}
+
 	Complex operator+(double d) {
 		return Complex(real + d, imaginary);
 	}
 
 	friend Complex operator+(double d, const Complex& num) {
-		return Complex(num.real + d, num.imaginary);
+		return num + d;
 	}
 
 	Complex operator-(const Complex& num) {
 		return Complex(real - num.real, imaginary - num.imaginary);
+	}
+
+	friend Complex operator-(const Complex& num1, const Complex& num2) {
+		return num1 - num2;
 	}
 
 	Complex operator-(double d) {
@@ -93,23 +100,31 @@ public:
 	}
 
 	// (a+bi)(c+di) = ac - bd + [(a+b)(c+d)-ac-bd]i
-	Complex operator*(Complex& num) {
+	Complex operator*(const Complex& num) {
 		double ac = real * num.real; double bd = imaginary * num.imaginary;
 		double abcd = (real + imaginary) * (num.real + num.imaginary);
 		return Complex(ac - bd, abcd - ac - bd);
+	}
+
+	friend Complex operator*(const Complex& num1, const Complex& num2) {
+		return num1 * num2;
 	}
 
 	Complex operator*(double num) {
 		return Complex(real*num, imaginary*num);
 	}
 
-	friend Complex operator*(double d, Complex& num) {
-		return Complex(num.real * d, num.imaginary * d);
+	friend Complex operator*(double d, const Complex& num) {
+		return num * d;
 	}
 
 	Complex operator/(Complex& num) {
 		Complex num_conjugate = num.conjugate();
 		return ((*this) * (num_conjugate)) * (1.0 / num.norm2());
+	}
+
+	friend Complex operator/(const Complex& num1, const Complex& num2) {
+		return num1 / num2;
 	}
 
 	Complex operator/(double num) {
@@ -122,6 +137,9 @@ public:
 	}
 
 	operator double() {
+		if (real < err && real > -err) {
+			real = 0;
+		}
 		return real;
 	}
 

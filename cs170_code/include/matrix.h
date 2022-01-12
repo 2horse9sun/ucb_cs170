@@ -104,6 +104,10 @@ public:
 		return res;
 	}
 
+	friend Matrix<T> operator+(const Matrix<T>& m1, const Matrix<T>& m2) {
+		return m1 + m2;
+	}
+
 	Matrix<T> operator-(const Matrix<T>& m) {
 		if (row_size != m.row_size || col_size != m.col_size)
 			throw "Dimension not match!";
@@ -116,6 +120,10 @@ public:
 		return res;
 	}
 
+	friend Matrix<T> operator-(const Matrix<T>& m1, const Matrix<T>& m2) {
+		return m1 - m2;
+	}
+
 	Matrix<T> operator-() {
 		Matrix<T> res(row_size, col_size);
 		for (int i = 0; i < row_size; i++) {
@@ -126,7 +134,7 @@ public:
 		return res;
 	}
 
-	Matrix<T> multiply(Matrix<T>& X, Matrix<T>& Y) {
+	Matrix<T> multiply(const Matrix<T>& X, const Matrix<T>& Y) {
 		Matrix<T> res(X.row_size, Y.col_size);
 		for (int i = 0; i < X.row_size; i++) {
 			for (int j = 0; j < Y.col_size; j++) {
@@ -141,9 +149,9 @@ public:
 	}
 
 	// Strassen
-	Matrix<T> multiply2(Matrix<T>& X, Matrix<T>& Y) {
+	Matrix<T> multiply2(const Matrix<T>& X, const Matrix<T>& Y) {
 		if (X.row_size == 1 && X.col_size == 1 && Y.row_size == 1 && Y.col_size == 1) {
-			Matrix<T> res(1, 1, X(1, 1) * Y(1, 1));
+			Matrix<T> res(1, 1, X.element[0][0] * Y.element[0][0]);
 			return res;
 		}
 
@@ -161,28 +169,28 @@ public:
 		Matrix<T> H(Y_block_row_size, Y_block_col_size, 0);
 		for (int i = 1; i <= X.row_size; ++i) {
 			for (int j = 1; j <= X.col_size; ++j) {
-				if (i <= X_block_row_size && j <= X_block_col_size) A(i, j) = X(i, j);
-				else if (i <= X_block_row_size && j > X_block_col_size) B(i, j-X_block_col_size) = X(i, j);
-				else if (i > X_block_row_size && j <= X_block_col_size) C(i-X_block_row_size, j) = X(i, j);
-				else D(i-X_block_row_size, j-X_block_col_size) = X(i, j);
+				if (i <= X_block_row_size && j <= X_block_col_size) A.element[i-1][j - 1] = X.element[i - 1][j - 1];
+				else if (i <= X_block_row_size && j > X_block_col_size) B.element[i - 1][j-X_block_col_size - 1] = X.element[i - 1][j - 1];
+				else if (i > X_block_row_size && j <= X_block_col_size) C.element[i-X_block_row_size - 1][j - 1] = X.element[i - 1][j - 1];
+				else D.element[i-X_block_row_size - 1][j-X_block_col_size - 1] = X.element[i - 1][j - 1];
 			}
 		}
 		for (int i = 1; i <= Y.row_size; ++i) {
 			for (int j = 1; j <= Y.col_size; ++j) {
-				if (i <= Y_block_row_size && j <= Y_block_col_size) E(i, j) = Y(i, j);
-				else if (i <= Y_block_row_size && j > Y_block_col_size) F(i, j-Y_block_col_size) = Y(i, j);
-				else if (i > Y_block_row_size && j <= Y_block_col_size) G(i-Y_block_row_size, j) = Y(i, j);
-				else H(i-Y_block_row_size, j-Y_block_col_size) = Y(i, j);
+				if (i <= Y_block_row_size && j <= Y_block_col_size) E.element[i - 1][j - 1] = Y.element[i-1][j-1];
+				else if (i <= Y_block_row_size && j > Y_block_col_size) F.element[i - 1][j-Y_block_col_size - 1] = Y.element[i-1][j-1];
+				else if (i > Y_block_row_size && j <= Y_block_col_size) G.element[i-Y_block_row_size - 1][j - 1] = Y.element[i-1][j-1];
+				else H.element[i-Y_block_row_size - 1][j-Y_block_col_size - 1] = Y.element[i-1][j-1];
 			}
 		}
 		
-		Matrix<T> FH = F - H; Matrix<T> P1 = multiply2(A, FH);
-		Matrix<T> AB = A + B; Matrix<T> P2 = multiply2(AB, H);
-		Matrix<T> CD = C + D; Matrix<T> P3 = multiply2(CD, E);
-		Matrix<T> GE = G - E; Matrix<T> P4 = multiply2(D, GE);
-		Matrix<T> AD = A + D; Matrix<T> EH = E + H; Matrix<T> P5 = multiply2(AD, EH);
-		Matrix<T> BD = B - D; Matrix<T> GH = G + H; Matrix<T> P6 = multiply2(BD, GH);
-		Matrix<T> AC = A - C; Matrix<T> EF = E + F; Matrix<T> P7 = multiply2(AC, EF);
+		Matrix<T> P1 = multiply2(A, F - H);
+		Matrix<T> P2 = multiply2(A + B, H);
+		Matrix<T> P3 = multiply2(C + D, E);
+		Matrix<T> P4 = multiply2(D, G - E);
+		Matrix<T> P5 = multiply2(A + D, E + H);
+		Matrix<T> P6 = multiply2(B - D, G + H);
+		Matrix<T> P7 = multiply2(A - C, E + F);
 		Matrix<T> XY1 = P5 + P4 - P2 + P6;
 		Matrix<T> XY2 = P1 + P2;
 		Matrix<T> XY3 = P3 + P4;
@@ -190,17 +198,21 @@ public:
 		Matrix<T> res(X.row_size, Y.col_size);
 		for (int i = 1; i <= X.row_size; ++i) {
 			for (int j = 1; j <= Y.col_size; ++j) {
-				if (i <= X_block_row_size && j <= Y_block_col_size) res(i, j) = XY1(i, j);
-				else if (i <= X_block_row_size && j > Y_block_col_size) res(i, j) = XY2(i, j-Y_block_col_size);
-				else if (i > X_block_row_size && j <= Y_block_col_size) res(i, j) = XY3(i-X_block_row_size, j);
-				else res(i, j) = XY4(i-X_block_row_size, j-Y_block_col_size);
+				if (i <= X_block_row_size && j <= Y_block_col_size) res.element[i-1][j-1] = XY1.element[i-1][j-1];
+				else if (i <= X_block_row_size && j > Y_block_col_size) res.element[i-1][j-1] = XY2.element[i - 1][j-Y_block_col_size - 1];
+				else if (i > X_block_row_size && j <= Y_block_col_size) res.element[i-1][j-1] = XY3.element[i-X_block_row_size - 1][j - 1];
+				else res.element[i - 1][j - 1] = XY4.element[i-X_block_row_size - 1][j-Y_block_col_size - 1];
 			}
 		}
 		return res;
  	}
 
-	Matrix<T> operator*(Matrix<T>& m) {
+	Matrix<T> operator*(const Matrix<T>& m) {
 		return multiply2(*this, m);
+	}
+
+	friend Matrix<T> operator*(const Matrix<T>& m1, const Matrix<T>& m2) {
+		return m1 * m2;
 	}
 
 	Matrix<T> operator*(T val) {

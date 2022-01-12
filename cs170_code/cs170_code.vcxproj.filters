@@ -56,5 +56,14 @@
     <ClInclude Include="include\complex.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\polynomial.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fft.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\constant.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

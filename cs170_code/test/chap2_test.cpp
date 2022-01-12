@@ -5,7 +5,19 @@
 #include "../include/binary.h"
 #include "../include/complex.h"
 #include "../include/matrix.h"
+#include "../include/fft.h"
+#include "../include/polynomial.h"
 #include "../include/chap2.h"
+
+void matrix_multiplication_test() {
+    Matrix<int> m1(2, 3);
+    m1(1, 1) = 1; m1(1, 2) = 4; m1(1, 3) = 2; m1(2, 1) = 6; m1(2, 2) = 1; m1(2, 3) = 3;
+    Matrix<int> m2(3, 2);
+    m2(1, 1) = 2; m2(1, 2) = 1; m2(2, 1) = 1; m2(2, 2) = 4; m2(3, 1) = 0; m2(3, 2) = 2;
+    cout << "Matrix1: " << endl << m1;
+    cout << "Matrix2: " << endl << m2;
+    cout << "Multiplication: " << endl << m1 * m2;
+}
 
 void quicksort_test() {
     std::cout << "quicksort_test" << std::endl;
@@ -140,6 +152,49 @@ void FFT_test() {
     Complex* aa = IFFT(y, n);
     std::cout << "IFFT: " << endl;
     for (int i = 0; i < n; ++i) cout << aa[i] << " ";
+    cout << endl;
+
+    end = clock();
+    std::cout << "time = " << (double(end - start) / CLOCKS_PER_SEC) * 1000 << "ms" << std::endl;
+    std::cout << "======================================" << std::endl;
+}
+
+void polynomial_multiplication_test() {
+    std::cout << "polynomial_test" << std::endl;
+    std::cout << "Input polynomial 1 's coefficients separated by space: ";
+    double* a = new double[64];
+    double num = 0;
+    int a_len = 0;
+    cin >> num;
+    a[a_len] = num;
+    a_len++;
+    while (cin.get() != '\n') {
+        cin >> num;
+        a[a_len] = num;
+        a_len++;
+    }
+    std::cout << "Input polynomial 2 's coefficients separated by space: ";
+    double* b = new double[64];
+    int b_len = 0;
+    cin >> num;
+    b[b_len] = num;
+    b_len++;
+    while (cin.get() != '\n') {
+        cin >> num;
+        b[b_len] = num;
+        b_len++;
+    }
+    clock_t start, end;
+    start = clock();
+
+    Polynomial pa(a, a_len);
+    Polynomial pb(b, b_len);
+    std::cout << "Sum: " << endl;
+    cout << pa + pb << endl;
+    std::cout << "Subtraction: " << endl;
+    cout << pa - pb << endl;
+    std::cout << "Multiplication: " << endl;
+    cout << pa * pb << endl;
     cout << endl;
 
     end = clock();

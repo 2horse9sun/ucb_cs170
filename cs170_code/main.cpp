@@ -10,13 +10,18 @@
 
 int main()
 {   
+    // chap2
+    //matrix_multiplication_test();
 
     while (true) {
 
+        
+        // chap0
         //fib1_test();
         //fib2_test();
         //fib3_test();
 
+        // chap1
         //addition_test();
         //subtraction_test();
         //multiplication_test();
@@ -32,12 +37,13 @@ int main()
         //naive_aes_test();
         //naive_rsa_test();
 
+        //chap2
         //quicksort_test();
         //mergesort_test();
         //external_mergesort_test();
         //select_test();
-
         //FFT_test();
+        //polynomial_multiplication_test();
 
     }
 

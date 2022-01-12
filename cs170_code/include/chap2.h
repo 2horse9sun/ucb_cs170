@@ -6,6 +6,8 @@
 
 using namespace std;
 
+void matrix_multiplication_test();
+
 // [l, r)
 void swap(int* a, int i, int j);
 int partition(int* a, int l, int r);
@@ -36,8 +38,5 @@ pair<int, int> split(int* a, int l, int r, int val);
 int select(int* a, int l, int r, int k);
 void select_test();
 
-int find_nearest_two_pow(int len);
-Complex* do_FFT(Complex* a, int n, double inverse);
-Complex* FFT(Complex* a, int n);
-Complex* IFFT(Complex* y, int n);
 void FFT_test();
+void polynomial_multiplication_test();

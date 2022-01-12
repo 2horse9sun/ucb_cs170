@@ -137,6 +137,10 @@ public:
 		return addition;
 	}
 
+	friend Binary operator+(const Binary& num1, const Binary& num2) {
+		return num1 + num2;
+	}
+
 	// Assume a>=b
 	Binary operator-(const Binary& num) {
 		int* a = arr;
@@ -165,7 +169,11 @@ public:
 		return subtraction;
 	}
 
-	Binary left_shift(int n = 1) {
+	friend Binary operator-(const Binary& num1, const Binary& num2) {
+		return num1 - num2;
+	}
+
+	Binary left_shift(int n = 1) const {
 		if ((*this).is_zero()) return get_zero();
 		Binary res = *this;
 		while (res.length + 1 + n > res.MAX_LEN) res.double_size();
@@ -176,7 +184,7 @@ public:
 		return res;
 	}
 
-	Binary right_shift(int n = 1) {
+	Binary right_shift(int n = 1) const {
 		Binary res = *this;
 		if (res.length == 0) return res;
 		if (res.length <= n) {
@@ -191,7 +199,7 @@ public:
 	}
 
 	// start from index n
-	Binary get_leftmost(int n) {
+	Binary get_leftmost(int n) const {
 		int new_length = length-n > 0 ? length-n : 0;
 		if (new_length == 0) return get_zero();
 		Binary left_half = Binary();
@@ -202,7 +210,7 @@ public:
 	}
 
 	// start from index 0
-	Binary get_rightmost(int n) {
+	Binary get_rightmost(int n) const {
 		int new_length = n;
 		if (new_length == 0) return get_zero();
 		Binary right_half = Binary();
@@ -216,7 +224,7 @@ public:
 		return right_half;
 	}
 
-	bool is_zero() {
+	bool is_zero() const {
 		return length == 1 && arr[0] == 0;
 	}
 
@@ -234,23 +242,22 @@ public:
 		return one;
 	}
 
-	bool is_even() {
+	bool is_even() const {
 		return length > 0 && arr[0] == 0;
 	}
 
-	bool is_odd() {
+	bool is_odd() const {
 		return length > 0 && arr[0] == 1;
 	}
 
-	Binary multiply(Binary& x, Binary& y) {
+	Binary multiply(const Binary& x, const Binary& y) {
 		if (y.is_zero()) return get_zero();
-		Binary yy = y.right_shift();
-		Binary z = multiply(x, yy);
+		Binary z = multiply(x, y.right_shift());
 		if (y.is_even()) return z.left_shift();
 		else return x + z.left_shift();
 	}
 
-	Binary multiply2(Binary& x, Binary& y) {
+	Binary multiply2(const Binary& x, const Binary& y) {
 		int n = max(x.length, y.length);
 		if (n == 1) {
 			if (x.is_zero() || y.is_zero()) return get_zero();
@@ -260,22 +267,19 @@ public:
 		Binary xr = x.get_rightmost(n / 2);
 		Binary yl = y.get_leftmost(n / 2);
 		Binary yr = y.get_rightmost(n / 2);
-		Binary xlr = xl + xr;
-		Binary ylr = yl + yr;
 		Binary P1 = multiply2(xl, yl);
 		Binary P2 = multiply2(xr, yr);
-		Binary P3 = multiply2(xlr, ylr);
+		Binary P3 = multiply2(xl + xr, yl + yr);
 		return P1.left_shift(n/2).left_shift(n/2) + (P3 - P1 - P2).left_shift(n / 2) + P2;
 	}
 
-	Binary operator*(Binary& num) {
+	Binary operator*(const Binary& num) {
 		return multiply2(*this, num);
 	}
 
-	pair<Binary, Binary> divide(Binary& x, Binary& y) {
+	pair<Binary, Binary> divide(const Binary& x, const Binary& y) {
 		if (x.is_zero()) return make_pair(get_zero(), get_zero());
-		Binary xx = x.right_shift();
-		pair<Binary, Binary> res = divide(xx, y);
+		pair<Binary, Binary> res = divide(x.right_shift(), y);
 		Binary q = res.first;
 		Binary r = res.second;
 		q = q.left_shift();
@@ -288,12 +292,12 @@ public:
 		return make_pair(q, r);
 	}
 
-	Binary operator/(Binary& num) {
+	Binary operator/(const Binary& num) {
 		pair<Binary, Binary> res = divide(*this, num);
 		return res.first;
 	}
 
-	Binary operator%(Binary& num) {
+	Binary operator%(const Binary& num) {
 		pair<Binary, Binary> res = divide(*this, num);
 		return res.second;
 	}
