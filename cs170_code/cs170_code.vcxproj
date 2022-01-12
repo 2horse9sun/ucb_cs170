@@ -18,6 +18,32 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\binary.h" />
+    <ClInclude Include="include\chap0.h" />
+    <ClInclude Include="include\chap1.h" />
+    <ClInclude Include="include\chap2.h" />
+    <ClInclude Include="include\complex.h" />
+    <ClInclude Include="include\constant.h" />
+    <ClInclude Include="include\fft.h" />
+    <ClInclude Include="include\matrix.h" />
+    <ClInclude Include="include\polynomial.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="source\binary.cpp" />
+    <ClCompile Include="source\chap0.cpp" />
+    <ClCompile Include="source\chap1.cpp" />
+    <ClCompile Include="source\chap2.cpp" />
+    <ClCompile Include="source\complex.cpp" />
+    <ClCompile Include="source\constant.cpp" />
+    <ClCompile Include="source\fft.cpp" />
+    <ClCompile Include="source\matrix.cpp" />
+    <ClCompile Include="source\polynomial.cpp" />
+    <ClCompile Include="test\chap0_test.cpp" />
+    <ClCompile Include="test\chap1_test.cpp" />
+    <ClCompile Include="test\chap2_test.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -138,26 +164,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="source\chap0.cpp" />
-    <ClCompile Include="source\chap1.cpp" />
-    <ClCompile Include="source\chap2.cpp" />
-    <ClCompile Include="test\chap0_test.cpp" />
-    <ClCompile Include="test\chap1_test.cpp" />
-    <ClCompile Include="test\chap2_test.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="include\binary.h" />
-    <ClInclude Include="include\chap0.h" />
-    <ClInclude Include="include\chap1.h" />
-    <ClInclude Include="include\chap2.h" />
-    <ClInclude Include="include\complex.h" />
-    <ClInclude Include="include\constant.h" />
-    <ClInclude Include="include\fft.h" />
-    <ClInclude Include="include\matrix.h" />
-    <ClInclude Include="include\polynomial.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

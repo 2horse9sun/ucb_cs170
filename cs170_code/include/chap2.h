@@ -1,8 +1,10 @@
 #pragma once
+#ifndef chap2_
+#define chap2_
 #include <iostream>
 #include <string>
 #include <vector>
-#include "../include/complex.h"
+#include "./complex.h"
 
 using namespace std;
 
@@ -40,3 +42,5 @@ void select_test();
 
 void FFT_test();
 void polynomial_multiplication_test();
+
+#endif

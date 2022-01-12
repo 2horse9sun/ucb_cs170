@@ -1,4 +1,6 @@
 #pragma once
+#ifndef chap1_
+#define chap1_
 #include <iostream>
 
 using namespace std;
@@ -39,3 +41,5 @@ int gen_private_key(int e, int p, int q);
 int naive_RSA_encode(int x, int N, int e);
 int naive_RSA_decode(int y, int N, int d);
 void naive_RSA_test();
+
+#endif

@@ -10,9 +10,9 @@
 #include "../include/chap2.h"
 
 void matrix_multiplication_test() {
-    Matrix<int> m1(2, 3);
+    Matrix m1(2, 3);
     m1(1, 1) = 1; m1(1, 2) = 4; m1(1, 3) = 2; m1(2, 1) = 6; m1(2, 2) = 1; m1(2, 3) = 3;
-    Matrix<int> m2(3, 2);
+    Matrix m2(3, 2);
     m2(1, 1) = 2; m2(1, 2) = 1; m2(2, 1) = 1; m2(2, 2) = 4; m2(3, 1) = 0; m2(3, 2) = 2;
     cout << "Matrix1: " << endl << m1;
     cout << "Matrix2: " << endl << m2;
@@ -132,11 +132,11 @@ void FFT_test() {
     double num = 0;
     int len = 0;
     cin >> num;
-    input[len] = Complex(num);
+    input[len] = Complex(num, 0.0);
     len++;
     while (cin.get() != '\n') {
         cin >> num;
-        input[len] = Complex(num);
+        input[len] = Complex(num, 0.0);
         len++;
     }
     clock_t start, end;
@@ -144,7 +144,7 @@ void FFT_test() {
 
     int n = find_nearest_two_pow(len);
     Complex* a = new Complex[n];
-    for (int i = 0; i < n; ++i) a[i] = i < len ? input[i] : Complex(0);
+    for (int i = 0; i < n; ++i) a[i] = i < len ? input[i] : Complex(0.0, 0.0);
     Complex* y = FFT(a, n);
     std::cout << "FFT: " << endl;
     for (int i = 0; i < n; ++i) cout << y[i] << " ";

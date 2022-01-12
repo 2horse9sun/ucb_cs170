@@ -23,9 +23,9 @@ int fib2(int n) {
 
 
 
-Matrix<int> matrix_pow(Matrix<int>& m, int n) {
+Matrix matrix_pow(Matrix& m, int n) {
 	if (n == 1) return m;
-	Matrix<int> res = matrix_pow(m, n / 2);
+	Matrix res = matrix_pow(m, n / 2);
 	if (n % 2 == 1) return m * res * res;
 	return res * res;
 }
@@ -33,7 +33,7 @@ Matrix<int> matrix_pow(Matrix<int>& m, int n) {
 int fib3(int n) {
 	if (n == 0) return 0;
 	if (n == 1) return 1;
-	Matrix<int> m = Matrix<int>(2, 2);
+	Matrix m(2, 2);
 	m(1, 1) = 0;
 	m(1, 2) = 1;
 	m(2, 1) = 1;

@@ -1,21 +1,24 @@
 #include <iostream>
 #include "./include/matrix.h"
-#include "./include/complex.h"
 #include "./include/chap0.h"
 #include "./include/chap1.h"
 #include "./include/chap2.h"
+
+#include "./include/fft.h"
 
 
 
 
 int main()
 {   
+    
     // chap2
     //matrix_multiplication_test();
 
     while (true) {
-
-        
+        int num;
+        cin >> num;
+        cout << rev(num) << endl;
         // chap0
         //fib1_test();
         //fib2_test();
@@ -34,8 +37,8 @@ int main()
         //primality2_test();
         //primality3_test();
         //gen_random_prime_test();
-        //naive_aes_test();
-        //naive_rsa_test();
+        //naive_AES_test();
+        //naive_RSA_test();
 
         //chap2
         //quicksort_test();
