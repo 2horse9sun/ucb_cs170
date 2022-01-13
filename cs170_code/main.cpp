@@ -4,7 +4,6 @@
 #include "./include/chap1.h"
 #include "./include/chap2.h"
 
-#include "./include/fft.h"
 
 
 
@@ -16,9 +15,6 @@ int main()
     //matrix_multiplication_test();
 
     while (true) {
-        int num;
-        cin >> num;
-        cout << rev(num) << endl;
         // chap0
         //fib1_test();
         //fib2_test();
@@ -46,7 +42,7 @@ int main()
         //external_mergesort_test();
         //select_test();
         //FFT_test();
-        //polynomial_multiplication_test();
+        polynomial_multiplication_test();
 
     }
 
