@@ -16,11 +16,31 @@ int modexp(int x, int y, int N) {
 	else return modmul(x % N, modexp(x % N, y - 1, N), N);
 }
 
+
+
 int euclid(int a, int b) {
 	if (b == 0) return a;
 	return euclid(b, a % b);
 }
 
+int gcd_divide_conquer(int a, int b) {
+	if (a == 0) return b;
+	if (b == 0) return a;
+	if (a % 2 == 0) {
+		if (b % 2 == 0) return 2 * gcd_divide_conquer(a / 2, b / 2);
+		else return gcd_divide_conquer(a / 2, b);
+	}
+	else {
+		if (b % 2 == 0) return gcd_divide_conquer(a, b / 2);
+		else return a >= b ? gcd_divide_conquer((a - b) / 2, b) : gcd_divide_conquer((b - a) / 2, a);
+	}
+}
+
+
+int gcd(int a, int b) {
+	//return euclid(a, b);
+	return gcd_divide_conquer(a, b);
+}
 
 // ax + by = d
 // pseudocode:

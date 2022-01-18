@@ -132,8 +132,8 @@ void modexp_test() {
     std::cout << "======================================" << std::endl;
 }
 
-void euclid_test() {
-    std::cout << "euclid_test" << std::endl;
+void gcd_test() {
+    std::cout << "gcd_test" << std::endl;
     std::cout << "Input the first integer a: ";
     int a;
     std::cin >> a;
@@ -143,8 +143,8 @@ void euclid_test() {
     clock_t start, end;
     start = clock();
 
-    int gcd = euclid(a, b);
-    std::cout << "gcd of a and b is: " << gcd << std::endl;
+    int res = gcd(a, b);
+    std::cout << "gcd of a and b is: " << res << std::endl;
 
     end = clock();
     std::cout << "time = " << (double(end - start) / CLOCKS_PER_SEC) * 1000 << "ms" << std::endl;

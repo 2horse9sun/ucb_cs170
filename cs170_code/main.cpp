@@ -26,7 +26,7 @@ int main()
         //multiplication_test();
         //division_test();
         //modexp_test();
-        //euclid_test();
+        //gcd_test();
         //extended_euclid_test();
         //mod_divide_test();
         //primality_test();
@@ -41,8 +41,12 @@ int main()
         //mergesort_test();
         //external_mergesort_test();
         //select_test();
+        //quantile_test();
         //FFT_test();
-        polynomial_multiplication_test();
+        //polynomial_multiplication_test();
+        counting_sort_test();
+        //select_from_two_sorted_array_test();
+        //major_element_test();
 
     }
 

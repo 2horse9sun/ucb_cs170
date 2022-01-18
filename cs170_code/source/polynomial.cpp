@@ -31,10 +31,11 @@ Polynomial::~Polynomial() {
 	delete[] a;
 }
 
+// Horner's rule
 double Polynomial::get_value(double x) const{
-	double val = 0;
-	for (int i = 0; i < len; ++i) {
-		val += a[0] * pow(x, i);
+	double val = a[len - 1];
+	for (int i = len - 2; i >= 0; --i) {
+		val = val * x + a[i];
 	}
 	return val;
 }

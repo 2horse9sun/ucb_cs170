@@ -15,8 +15,11 @@ int modexp(int x, int y, int N);
 void modexp_test();
 
 // gcd
+
 int euclid(int a, int b);
-void euclid_test();
+int gcd_divide_conquer(int a, int b);
+int gcd(int a, int b);
+void gcd_test();
 void extended_euclid(int& x, int& y, int& d, int a, int b);
 void extended_euclid_test();
 int get_multiplicative_inverse(int a, int N);

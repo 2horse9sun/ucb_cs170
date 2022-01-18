@@ -311,6 +311,7 @@ void external_mergesort(string file_name) {
 }
 
 
+// in place
 pair<int, int> split(int* a, int l, int r, int val) {
 	int k = l;
 	for (int i = l; i < r; ++i) {
@@ -330,15 +331,140 @@ pair<int, int> split(int* a, int l, int r, int val) {
 	return make_pair(lb, ub);
 }
 
-// k'th smallest element
-int select(int* a, int l, int r, int k) {
+// k'th smallest element, in place, original array will change
+int quickselect(int* a, int l, int r, int k) {
 	int val = a[rand() % (r - l) + l];
 	pair<int, int> res = split(a, l, r, val);
 	int lb = res.first; int ub = res.second;
-	if (k <= lb - l) return select(a, l, lb, k);
-	else if (k > ub - l) return select(a, ub, r, k - ub + l);
+	if (k <= lb - l) return quickselect(a, l, lb, k);
+	else if (k > ub - l) return quickselect(a, ub, r, k - ub + l);
 	else return val;
+}
+
+int median(int* a, int l, int r) {
+	return quickselect(a, l, r, ((r - l) + 1) / 2);
+}
+
+// k > 1
+int* quantile(int* a, int l, int r, int k) {
+	int n = r - l;
+	if (k == 2) {
+		int* res = new int[1];
+		res[0] = median(a, l, r);
+		return res;
+	}
+	if (k % 2 == 0) {
+		int m = median(a, l, r);
+		int* left = quantile(a, l, l + (n + 1) / 2, k / 2);
+		int* right = quantile(a, l + (n + 1) / 2, r, k / 2);
+		int* res = new int[k - 1];
+		int i = 0;
+		for (; i < k / 2 - 1; ++i) res[i] = left[i];
+		res[i++] = m;
+		for (; i < k - 1; ++i) res[i] = right[i-k/2];
+		delete[] left; delete[] right;
+		return res;
+	} else {
+		int q = quickselect(a, l, r, n / k);
+		int* right = quantile(a, l + n / k, r, k - 1);
+		int* res = new int[k - 1];
+		res[0] = q;
+		for (int i = 1; i < k - 1; ++i) res[i] = right[i - 1];
+		delete[] right;
+		return res;
+	}
+}
+
+
+int* counting_sort(int* a, int n, int k) {
+	int* b = new int[n];
+	int* c = new int[k+1];
+	for (int i = 0; i <= k; ++i) c[i] = 0;
+	for (int i = 0; i < n; ++i) c[a[i]]++;
+	for (int i = 1; i <= k; ++i) c[i] += c[i-1];
+	for (int i = n-1; i >= 0; --i) {
+		b[c[a[i]]-1] = a[i];
+		c[a[i]]--;
+	}
+	delete[] c;
+	return b;
+}
+
+
+int select_from_two_sorted_array(int* a, int la, int ra, int* b, int lb, int rb, int k) {
+	int na = ra - la;
+	int nb = rb - lb;
+	if (k == 1) return min(na > 0 ? a[la] : INT_MAX, nb > 0 ? b[lb] : INT_MAX);
+	int kf = k / 2;
+	int kc = k % 2 == 0 ? k / 2 : (k + 1) / 2;
+	int am = la + kf - 1 < ra ? a[la + kf - 1] : INT_MAX;
+	int bm = lb + kc - 1 < rb ? b[lb + kc - 1] : INT_MAX;
+	if (am == bm) return am;
+	else if (am > bm) return select_from_two_sorted_array(a, la, min(la + kf, ra), b, min(lb + kc, rb), rb, kf);
+	else return select_from_two_sorted_array(a, min(la + kf, ra), ra, b, lb, min(lb + kc, rb), kc);
 }
 
 
 
+
+bool major_element(int* a, int l, int r, int* major) {
+	if (r - l == 0) return false;
+	if (r - l == 1) {
+		*major = a[l];
+		return true;
+	}
+	int m = l + (r - l) / 2;
+	int* major1 = new int; 
+	int* major2 = new int; 
+	if (major_element(a, l, m, major1)) {
+		int cnt = 0;
+		for (int i = l; i < r; ++i) {
+			if (a[i] == *major1) cnt++;
+		}
+		if (cnt >= m + 1) {
+			*major = *major1; 
+			delete major1; delete major2; 
+			return true;
+		}
+	}
+	if (major_element(a, m, r, major2)) {
+		int cnt = 0;
+		for (int i = l; i < r; ++i) {
+			if (a[i] == *major2) cnt++;
+		}
+		if (cnt >= m + 1) {
+			*major = *major2; 
+			delete major1; delete major2; 
+			return true;
+		}
+	}
+	return false;
+}
+
+bool major_element2(int* a, int n, int* major) {
+	if (n == 0) return false;
+	if (n == 1) {
+		*major = a[0];
+		return true;
+	}
+	if (n % 2 == 0) {
+		int* aa = new int[n / 2];
+		int k = 0;
+		for (int i = 0; i < n; i += 2) {
+			if (a[i] == a[i + 1]) aa[k++] = a[i];
+		}
+		bool res = major_element2(aa, k, major);
+		delete[] aa;
+		return res;
+	} else {
+		int cnt = 0;
+		for (int i = 0; i < n; ++i) {
+			if (a[i] == a[n-1]) cnt++;
+		}
+		if (cnt >= n / 2 + 1) {
+			*major = a[n-1];
+			return true;
+		}
+		else return major_element2(a, n - 1, major);
+	}
+}

@@ -37,10 +37,22 @@ void external_mergesort(string file_name);
 void external_mergesort_test();
 
 pair<int, int> split(int* a, int l, int r, int val);
-int select(int* a, int l, int r, int k);
-void select_test();
+int quickselect(int* a, int l, int r, int k);
+void quickselect_test();
+int median(int* a, int l, int r);
+int* quantile(int* a, int l, int r, int k);
+void quantile_test();
 
 void FFT_test();
 void polynomial_multiplication_test();
 
+int* counting_sort(int* a, int n, int k);
+void counting_sort_test();
+
+int select_from_two_sorted_array(int* a, int la, int ra, int* b, int lb, int rb, int k);
+void select_from_two_sorted_array_test();
+
+bool major_element(int* a, int l, int r, int* major);
+bool major_element2(int* a, int n, int* major);
+void major_element_test();
 #endif
