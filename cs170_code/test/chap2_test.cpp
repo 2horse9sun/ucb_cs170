@@ -7,6 +7,7 @@
 #include "../include/matrix.h"
 #include "../include/fft.h"
 #include "../include/polynomial.h"
+#include "../include/datetime.h"
 #include "../include/chap2.h"
 
 void matrix_multiplication_test() {
@@ -262,12 +263,41 @@ void counting_sort_test() {
     clock_t start, end;
     start = clock();
 
-    int* b = counting_sort(a, len, k);
+    counting_sort(a, len, k);
     std::cout << "Sorted: ";
     for (int i = 0; i < len; ++i) {
-        std::cout << b[i] << " ";
+        std::cout << a[i] << " ";
     }
     std::cout << endl;
+
+    end = clock();
+    std::cout << "time = " << (double(end - start) / CLOCKS_PER_SEC) * 1000 << "ms" << std::endl;
+    std::cout << "======================================" << std::endl;
+}
+
+void radix_sort_datetime_test() {
+    int len = 100;
+    DateTime** dts = new DateTime*[len];
+
+    srand((unsigned)time(0));
+    for (int i = 0; i < len; ++i) {
+        int y = rand() % 2 + 2020;
+        int M = rand() % 12 + 1;
+        int d = rand() % 31 + 1;
+        int H = rand() % 24;
+        int m = rand() % 60;
+        int s = rand() % 60;
+        dts[i] = new DateTime(y, M, d, H, m, s);
+    }
+
+    clock_t start, end;
+    start = clock();
+
+    radix_sort_datetime(dts, len);
+    std::cout << "Sorted: " << endl;
+    for (int i = 0; i < len; ++i) {
+        std::cout << dts[i] << endl;
+    }
 
     end = clock();
     std::cout << "time = " << (double(end - start) / CLOCKS_PER_SEC) * 1000 << "ms" << std::endl;

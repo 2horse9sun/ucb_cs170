@@ -5,13 +5,13 @@
 #include <string>
 #include <vector>
 #include "./complex.h"
+#include "../include/datetime.h"
 
 using namespace std;
 
 void matrix_multiplication_test();
 
 // [l, r)
-void swap(int* a, int i, int j);
 int partition(int* a, int l, int r);
 int randomized_partition(int* a, int l, int r);
 void quicksort(int* a, int l, int r);
@@ -46,8 +46,10 @@ void quantile_test();
 void FFT_test();
 void polynomial_multiplication_test();
 
-int* counting_sort(int* a, int n, int k);
+void counting_sort(int* a, int n, int k);
 void counting_sort_test();
+void radix_sort_datetime(DateTime** dts, int n);
+void radix_sort_datetime_test();
 
 int select_from_two_sorted_array(int* a, int la, int ra, int* b, int lb, int rb, int k);
 void select_from_two_sorted_array_test();

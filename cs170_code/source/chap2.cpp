@@ -9,6 +9,7 @@
 #include <cmath>
 #include <math.h>
 #include "../include/chap2.h"
+#include "../include/datetime.h"
 
 using namespace std;
 
@@ -17,11 +18,6 @@ int RAM_PAGE_NUM = 1000; // available RAM size
 
 
 
-void swap(int* a, int i, int j) {
-	int tmp = a[i];
-	a[i] = a[j];
-	a[j] = tmp;
-}
 
 int partition(int* a, int l, int r) {
 	int p = a[r - 1];
@@ -29,16 +25,16 @@ int partition(int* a, int l, int r) {
 	for (int j = l; j < r - 1; ++j) {
 		if (a[j] <= p) {
 			i++;
-			swap(a, i, j);
+			swap(a[i], a[j]);
 		}
 	}
-	swap(a, i + 1, r - 1);
+	swap(a[i + 1], a[r - 1]);
 	return i + 1;
 }
 
 int randomized_partition(int* a, int l, int r) {
 	int m = rand() % (r - l) + l;
-	swap(a, m, r - 1);
+	swap(a[m], a[r - 1]);
 	return partition(a, l, r);
 }
 
@@ -100,31 +96,6 @@ void gen_random_int_file(string file_name, long size) {
 	cout << "random file generated!" << endl;
 }
 
-//int read_line(string file_name, int start, int size, int* buffer, bool reverse = false) {
-//	int line_num = 0;
-//	fstream file(file_name, fstream::in);
-//	file.seekg(ios::beg);
-//	for (int i = 0; i < start; ++i) {
-//		if (file.eof()) return 0;
-//		file.ignore(numeric_limits<streamsize>::max(), '\n');
-//	}
-//	int num;
-//	for (int i = 0; i < size; ++i) {
-//		if (file >> num) {
-//			line_num++;
-//			buffer[i] = num;
-//		}
-//	}
-//	if (reverse) {
-//		int i = 0; int j = line_num-1;
-//		while (i < j) {
-//			int tmp = buffer[i];
-//			buffer[i++] = buffer[j];
-//			buffer[j--] = tmp;
-//		}
-//	}
-//	return line_num;
-//}
 
 int read_line(fstream& file, int size, int* buffer, bool reverse = false) {
 	int line_num = 0;
@@ -148,18 +119,6 @@ int read_line(fstream& file, int size, int* buffer, bool reverse = false) {
 
 int write_line(fstream& file, int size, int* buffer) {
 	int line_num = 0;
-	file.seekg(ios::end);
-	for (int i = 0; i < size; ++i) {
-		line_num++;
-		file << buffer[i];
-		file << '\n';
-	}
-	return line_num;
-}
-
-int write_line(string file_name, int size, int* buffer) {
-	int line_num = 0;
-	fstream file(file_name, fstream::out | fstream::app);
 	file.seekg(ios::end);
 	for (int i = 0; i < size; ++i) {
 		line_num++;
@@ -275,6 +234,7 @@ string merge_files(vector<string> file_names, int start, int size, int** input_b
 	return output_file_name;
 }
 
+// one pass
 vector<string> external_merge(vector<string> file_names, int** input_buffer, int* output_buffer) {
 	vector<string> output_file_names;
 	int file_num = file_names.size();
@@ -316,14 +276,14 @@ pair<int, int> split(int* a, int l, int r, int val) {
 	int k = l;
 	for (int i = l; i < r; ++i) {
 		if (a[i] < val) {
-			swap(a, k, i);
+			swap(a[k], a[i]);
 			k++;
 		}
 	}
 	int lb = k;
 	for (int i = k; i < r; ++i) {
 		if (a[i] == val) {
-			swap(a, k, i);
+			swap(a[k], a[i]);
 			k++;
 		}
 	}
@@ -376,7 +336,7 @@ int* quantile(int* a, int l, int r, int k) {
 }
 
 
-int* counting_sort(int* a, int n, int k) {
+void counting_sort(int* a, int n, int k) {
 	int* b = new int[n];
 	int* c = new int[k+1];
 	for (int i = 0; i <= k; ++i) c[i] = 0;
@@ -386,8 +346,18 @@ int* counting_sort(int* a, int n, int k) {
 		b[c[a[i]]-1] = a[i];
 		c[a[i]]--;
 	}
-	delete[] c;
-	return b;
+	for (int i = 0; i < n; ++i) a[i] = b[i];
+	delete[] b; delete[] c;
+}
+
+
+void radix_sort_datetime(DateTime** dts, int n) {
+	counting_sort_s(dts, n);
+	counting_sort_m(dts, n);
+	counting_sort_H(dts, n);
+	counting_sort_d(dts, n);
+	counting_sort_M(dts, n);
+	counting_sort_y(dts, n);
 }
 
 

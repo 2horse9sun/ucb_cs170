@@ -4,15 +4,26 @@
 #include "./include/chap1.h"
 #include "./include/chap2.h"
 
-
+#include "./include/heap.h"
 
 
 
 int main()
 {   
-    
+    int a[15] = { 3,1,4,5,9,2,6,8,7,0 };
+    build_maxheap(a, 0, 10);
+    cout << maxheap_top(a, 0, 10) << endl;
+    cout << maxheap_pop(a, 0, 10) << endl;
+    cout << maxheap_pop(a, 0, 9) << endl;
+    cout << maxheap_pop(a, 0, 8) << endl;
+    maxheap_push(a, 0, 7, 20);
+    cout << maxheap_top(a, 0, 8) << endl;
+    maxheap_push(a, 0, 8, 25);
+    cout << maxheap_top(a, 0, 9) << endl;
+
     // chap2
     //matrix_multiplication_test();
+    //radix_sort_datetime_test();
 
     while (true) {
         // chap0
@@ -44,7 +55,7 @@ int main()
         //quantile_test();
         //FFT_test();
         //polynomial_multiplication_test();
-        counting_sort_test();
+        //counting_sort_test();
         //select_from_two_sorted_array_test();
         //major_element_test();
 

@@ -42,6 +42,12 @@
     <ClInclude Include="include\polynomial.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\datetime.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\heap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\matrix.cpp">
@@ -81,6 +87,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="test\chap2_test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\datetime.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\heap.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

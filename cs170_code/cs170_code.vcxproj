@@ -25,7 +25,9 @@
     <ClInclude Include="include\chap2.h" />
     <ClInclude Include="include\complex.h" />
     <ClInclude Include="include\constant.h" />
+    <ClInclude Include="include\datetime.h" />
     <ClInclude Include="include\fft.h" />
+    <ClInclude Include="include\heap.h" />
     <ClInclude Include="include\matrix.h" />
     <ClInclude Include="include\polynomial.h" />
   </ItemGroup>
@@ -37,7 +39,9 @@
     <ClCompile Include="source\chap2.cpp" />
     <ClCompile Include="source\complex.cpp" />
     <ClCompile Include="source\constant.cpp" />
+    <ClCompile Include="source\datetime.cpp" />
     <ClCompile Include="source\fft.cpp" />
+    <ClCompile Include="source\heap.cpp" />
     <ClCompile Include="source\matrix.cpp" />
     <ClCompile Include="source\polynomial.cpp" />
     <ClCompile Include="test\chap0_test.cpp" />
