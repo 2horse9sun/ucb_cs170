@@ -23,13 +23,17 @@
     <ClInclude Include="include\chap0.h" />
     <ClInclude Include="include\chap1.h" />
     <ClInclude Include="include\chap2.h" />
+    <ClInclude Include="include\chap3.h" />
     <ClInclude Include="include\complex.h" />
     <ClInclude Include="include\constant.h" />
     <ClInclude Include="include\datetime.h" />
+    <ClInclude Include="include\edge.h" />
     <ClInclude Include="include\fft.h" />
+    <ClInclude Include="include\graph.h" />
     <ClInclude Include="include\heap.h" />
     <ClInclude Include="include\matrix.h" />
     <ClInclude Include="include\polynomial.h" />
+    <ClInclude Include="include\vertex.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -37,16 +41,19 @@
     <ClCompile Include="source\chap0.cpp" />
     <ClCompile Include="source\chap1.cpp" />
     <ClCompile Include="source\chap2.cpp" />
+    <ClCompile Include="source\chap3.cpp" />
     <ClCompile Include="source\complex.cpp" />
     <ClCompile Include="source\constant.cpp" />
     <ClCompile Include="source\datetime.cpp" />
     <ClCompile Include="source\fft.cpp" />
+    <ClCompile Include="source\graph.cpp" />
     <ClCompile Include="source\heap.cpp" />
     <ClCompile Include="source\matrix.cpp" />
     <ClCompile Include="source\polynomial.cpp" />
     <ClCompile Include="test\chap0_test.cpp" />
     <ClCompile Include="test\chap1_test.cpp" />
     <ClCompile Include="test\chap2_test.cpp" />
+    <ClCompile Include="test\chap3_test.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

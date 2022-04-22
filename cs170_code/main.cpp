@@ -3,27 +3,24 @@
 #include "./include/chap0.h"
 #include "./include/chap1.h"
 #include "./include/chap2.h"
+#include "./include/chap3.h"
 
-#include "./include/heap.h"
 
 
 
 int main()
 {   
-    int a[15] = { 3,1,4,5,9,2,6,8,7,0 };
-    build_maxheap(a, 0, 10);
-    cout << maxheap_top(a, 0, 10) << endl;
-    cout << maxheap_pop(a, 0, 10) << endl;
-    cout << maxheap_pop(a, 0, 9) << endl;
-    cout << maxheap_pop(a, 0, 8) << endl;
-    maxheap_push(a, 0, 7, 20);
-    cout << maxheap_top(a, 0, 8) << endl;
-    maxheap_push(a, 0, 8, 25);
-    cout << maxheap_top(a, 0, 9) << endl;
 
     // chap2
     //matrix_multiplication_test();
     //radix_sort_datetime_test();
+
+    // chap3
+    //undirected_graph_test();
+    //dfs_test();
+    //undirected_cc_test();
+    //dag_topological_sort_test();
+    directed_scc_test();
 
     while (true) {
         // chap0
@@ -59,7 +56,10 @@ int main()
         //select_from_two_sorted_array_test();
         //major_element_test();
 
+        
     }
+
+    
 
 
 }
