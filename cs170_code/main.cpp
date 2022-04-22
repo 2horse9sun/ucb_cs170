@@ -4,6 +4,7 @@
 #include "./include/chap1.h"
 #include "./include/chap2.h"
 #include "./include/chap3.h"
+#include "./include/chap4.h"
 
 
 
@@ -20,7 +21,13 @@ int main()
     //dfs_test();
     //undirected_cc_test();
     //dag_topological_sort_test();
-    directed_scc_test();
+    //directed_scc_test();
+
+    // chap4
+    //bfs_test();
+    //bellman_ford_test();
+    //dag_shortest_path_test();
+    //dijkstra_test();
 
     while (true) {
         // chap0

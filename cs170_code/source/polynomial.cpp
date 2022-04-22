@@ -1,7 +1,7 @@
 #include<iostream>
 #include<math.h>
 #include<cmath>
-#include "../include/constant.h"
+#include "../include/global.h"
 #include "../include/complex.h"
 #include "../include/fft.h"
 #include "../include/polynomial.h"

@@ -11,7 +11,6 @@
 #include "../include/graph.h"
 
 unordered_map<Vertex*, bool> visited;
-
 int t = 0; // global clock
 unordered_map<Vertex*, int> pre; // first time to visit v
 unordered_map<Vertex*, int> post; // last time to visit v
@@ -26,7 +25,7 @@ void previsit(Vertex* v) {
 
 	cout << v->to_string() << " ";
 
-	pre.insert({ v, t });
+	pre[v] = t;
 	t++;
 
 	cc.insert({ v, group });
@@ -35,7 +34,7 @@ void previsit(Vertex* v) {
 
 void postvisit(Vertex* v) {
 
-	post.insert({ v, t });
+	post[v] = t;
 	t++;
 
 	topological_sort_res.insert(topological_sort_res.begin(), v);
@@ -48,9 +47,11 @@ void explore(Graph G, Vertex* v) {
 	visited[v] = true;
 	previsit(v);
 
-	vector<Vertex*> neighbours = G.get_neighbours(v);
+	vector<Vertex*> neighbours = G.get_adj_vertices(v);
 	for (auto iter = neighbours.begin(); iter != neighbours.end(); iter++) {
-		if (!visited[*iter]) explore(G, *iter);
+		if (!visited[*iter]) {
+			explore(G, *iter);
+		} 
 	}
 
 	postvisit(v);
@@ -59,7 +60,7 @@ void explore(Graph G, Vertex* v) {
 void dfs(Graph G) {
 	unordered_set<Vertex*> vertices = G.get_vertex_set();
 	for (auto iter = vertices.begin(); iter != vertices.end(); iter++) {
-		visited.insert({ *iter, false });
+		visited[*iter] = false;
 	}
 	for (auto iter = vertices.begin(); iter != vertices.end(); iter++) {
 		if (!visited[*iter]) {
@@ -78,6 +79,11 @@ void print_undirected_cc(Graph G) {
 	}
 }
 
+vector<Vertex*> dag_topological_sort(Graph G) {
+	dfs(G);
+	return topological_sort_res;
+}
+
 void print_dag_topological_sort(Graph G) {
 	dfs(G);
 	cout << endl;
@@ -88,7 +94,7 @@ void print_dag_topological_sort(Graph G) {
 	cout << endl;
 }
 
-class cmp {
+class scc_cmp {
 public:
 	bool operator()(Vertex* v1, Vertex* v2) {
 		return post_tmp[v1] < post_tmp[v2];
@@ -110,7 +116,7 @@ void print_directed_scc(Graph G) {
 	dfs(R);
 
 	// run dfs on G, visiting vertices in DESC order of post[v]
-	priority_queue<Vertex*, vector<Vertex*>, cmp> pq;
+	priority_queue<Vertex*, vector<Vertex*>, scc_cmp> pq;
 	post_tmp = post;
 	for (auto iter = vertices.begin(); iter != vertices.end(); iter++) {
 		pq.push(*iter);
@@ -119,7 +125,7 @@ void print_directed_scc(Graph G) {
 	visited.clear(); t = 0; pre.clear(); post.clear(); group = 0; cc.clear();
 
 	for (auto iter = vertices.begin(); iter != vertices.end(); iter++) {
-		visited.insert({ *iter, false });
+		visited[*iter] = false;
 	}
 	Vertex* v;
 	while(!pq.empty()) {

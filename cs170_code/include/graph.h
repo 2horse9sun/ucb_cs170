@@ -30,8 +30,9 @@ public:
 	unordered_set<Edge*> get_edge_set();
 	void print_vertices();
 	void print_edges();
-	vector<Vertex*> get_neighbours(Vertex* v);
-	void print_neighbours(Vertex* v);
+	vector<Vertex*> get_adj_vertices(Vertex* v);
+	void print_adj_vertices(Vertex* v);
+	vector<Edge*> get_adj_edges(Vertex* v);
 
 
 };

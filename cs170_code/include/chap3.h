@@ -3,6 +3,7 @@
 #define chap3_
 
 #include <iostream>
+#include <vector>
 #include "./vertex.h"
 #include "./edge.h"
 #include "./graph.h"
@@ -19,6 +20,7 @@ void dfs_test();
 void print_undirected_cc(Graph G);
 void undirected_cc_test();
 
+vector<Vertex*> dag_topological_sort(Graph G);
 void print_dag_topological_sort(Graph G);
 void dag_topological_sort_test();
 

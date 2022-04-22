@@ -60,7 +60,7 @@ void undirected_graph_test() {
     G32.print_edges();
     std::cout << endl;
     std::cout << "Neighbours of B: ";
-    G32.print_neighbours(&B);
+    G32.print_adj_vertices(&B);
     std::cout << endl;
 
     G32.remove_vertex(&A);
@@ -75,7 +75,7 @@ void undirected_graph_test() {
     G32.print_edges();
     std::cout << endl;
     std::cout << "Neighbours of B: ";
-    G32.print_neighbours(&B);
+    G32.print_adj_vertices(&B);
     std::cout << endl;
 
     end = clock();

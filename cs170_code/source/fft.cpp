@@ -2,7 +2,7 @@
 #include <cmath>
 #include <math.h>
 #include "../include/complex.h"
-#include "../include/constant.h"
+#include "../include/global.h"
 #include "../include/fft.h"
 
 using namespace std;

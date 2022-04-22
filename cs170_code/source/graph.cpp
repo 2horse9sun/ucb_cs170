@@ -23,7 +23,7 @@ bool Graph::has_vertex(Vertex* v) {
 void Graph::add_vertex(Vertex* v) {
 	if (!this->has_vertex(v)) {
 		this->vertices.insert(v);
-		this->adj_list.insert({ v, vector<Edge*>() });
+		this->adj_list[v] = vector<Edge*>();
 	}
 }
 
@@ -105,7 +105,7 @@ void Graph::print_edges() {
 	}
 }
 
-vector<Vertex*> Graph::get_neighbours(Vertex* v) {
+vector<Vertex*> Graph::get_adj_vertices(Vertex* v) {
 	vector<Edge*> adj_edges = this->adj_list[v];
 	vector<Vertex*> adj_vertices;
 	for (Edge* e : adj_edges) {
@@ -114,8 +114,13 @@ vector<Vertex*> Graph::get_neighbours(Vertex* v) {
 	return adj_vertices;
 }
 
-void Graph::print_neighbours(Vertex* v) {
-	vector<Vertex*> adj_vertices = this->get_neighbours(v);
+vector<Edge*> Graph::get_adj_edges(Vertex* v) {
+	vector<Edge*> adj_edges = this->adj_list[v];
+	return adj_edges;
+}
+
+void Graph::print_adj_vertices(Vertex* v) {
+	vector<Vertex*> adj_vertices = this->get_adj_vertices(v);
 	for (int i = 0; i < adj_vertices.size(); ++i) {
 		if (i == adj_vertices.size() - 1) cout << adj_vertices[i]->to_string();
 		else cout << adj_vertices[i]->to_string() << ",";
