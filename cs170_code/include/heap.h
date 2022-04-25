@@ -16,5 +16,11 @@ int maxheap_top(int* a, int l, int r);
 int maxheap_pop(int* a, int l, int r);
 void maxheap_push(int* a, int l, int r, int key);
 
+void min_heapify(int* a, int l, int r, int i);
+void build_minheap(int* a, int l, int r);
+void min_heapsort(int* a, int l, int r);
+int minheap_top(int* a, int l, int r);
+int minheap_pop(int* a, int l, int r);
+void minheap_push(int* a, int l, int r, int key);
 
 #endif

@@ -25,6 +25,7 @@ public:
 	bool has_edge(Edge* e);
 	void add_edge(Edge* e);
 	void remove_edge(Edge* e);
+	Edge* get_edge(Vertex* v1, Vertex* v2);
 
 	unordered_set<Vertex*> get_vertex_set();
 	unordered_set<Edge*> get_edge_set();
@@ -33,6 +34,7 @@ public:
 	vector<Vertex*> get_adj_vertices(Vertex* v);
 	void print_adj_vertices(Vertex* v);
 	vector<Edge*> get_adj_edges(Vertex* v);
+	void print_adj_edges(Vertex* v);
 
 
 };

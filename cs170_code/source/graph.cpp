@@ -75,6 +75,17 @@ void Graph::remove_edge(Edge* e) {
 	}
 }
 
+Edge* Graph::get_edge(Vertex* v1, Vertex* v2) {
+	vector<Edge*> adj_edges = this->get_adj_edges(v1);
+	for (auto iter = adj_edges.begin(); iter != adj_edges.end(); iter++) {
+		Edge* e = *iter;
+		if (e->get_second_vertex() == v2) {
+			return e;
+		} 
+	}
+	return nullptr;
+}
+
 unordered_set<Vertex*> Graph::get_vertex_set() {
 	return this->vertices;
 }
@@ -124,5 +135,13 @@ void Graph::print_adj_vertices(Vertex* v) {
 	for (int i = 0; i < adj_vertices.size(); ++i) {
 		if (i == adj_vertices.size() - 1) cout << adj_vertices[i]->to_string();
 		else cout << adj_vertices[i]->to_string() << ",";
+	}
+}
+
+void Graph::print_adj_edges(Vertex* v) {
+	vector<Edge*> adj_edges = this->get_adj_edges(v);
+	for (int i = 0; i < adj_edges.size(); ++i) {
+		if (i == adj_edges.size() - 1) cout << adj_edges[i]->to_string();
+		else cout << adj_edges[i]->to_string() << ",";
 	}
 }

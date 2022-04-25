@@ -25,6 +25,7 @@
     <ClInclude Include="include\chap2.h" />
     <ClInclude Include="include\chap3.h" />
     <ClInclude Include="include\chap4.h" />
+    <ClInclude Include="include\chap5.h" />
     <ClInclude Include="include\complex.h" />
     <ClInclude Include="include\global.h" />
     <ClInclude Include="include\datetime.h" />
@@ -44,6 +45,7 @@
     <ClCompile Include="source\chap2.cpp" />
     <ClCompile Include="source\chap3.cpp" />
     <ClCompile Include="source\chap4.cpp" />
+    <ClCompile Include="source\chap5.cpp" />
     <ClCompile Include="source\complex.cpp" />
     <ClCompile Include="source\constant.cpp" />
     <ClCompile Include="source\datetime.cpp" />
@@ -57,6 +59,7 @@
     <ClCompile Include="test\chap2_test.cpp" />
     <ClCompile Include="test\chap3_test.cpp" />
     <ClCompile Include="test\chap4_test.cpp" />
+    <ClCompile Include="test\chap5_test.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

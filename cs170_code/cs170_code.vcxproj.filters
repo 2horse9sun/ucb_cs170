@@ -63,6 +63,9 @@
     <ClInclude Include="include\chap4.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\chap5.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\matrix.cpp">
@@ -123,6 +126,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="test\chap4_test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\chap5.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="test\chap5_test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

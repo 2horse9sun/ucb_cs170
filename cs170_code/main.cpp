@@ -5,6 +5,7 @@
 #include "./include/chap2.h"
 #include "./include/chap3.h"
 #include "./include/chap4.h"
+#include "./include/chap5.h"
 
 
 
@@ -28,6 +29,10 @@ int main()
     //bellman_ford_test();
     //dag_shortest_path_test();
     //dijkstra_test();
+
+    //chap5
+    //kruskal_test();
+    prim_test();
 
     while (true) {
         // chap0

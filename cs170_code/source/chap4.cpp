@@ -2,9 +2,11 @@
 #include <vector>
 #include <unordered_set>
 #include <unordered_map>
-#include <algorithm>
+#include <set>
 #include <queue>
 #include <stack>
+#include <algorithm>
+
 
 #include "../include/chap3.h"
 #include "../include/chap4.h"
@@ -14,6 +16,20 @@
 
 unordered_map<Vertex*, Vertex*> parent;
 unordered_map<Vertex*, int> dist;
+
+
+class dijkstra_cmp {
+public:
+	bool operator()(Vertex* v1, Vertex* v2) const {
+		return dist[v1] < dist[v2];
+	}
+};
+
+
+
+// used as a priority_queue with update_key function
+multiset<Vertex*, dijkstra_cmp> dijkstra_queue;
+
 
 void init_single_source(Graph G, Vertex* s) {
 	unordered_set<Vertex*> vertices = G.get_vertex_set();
@@ -29,6 +45,13 @@ void relax(Edge* e) {
 	if (dist[u] != INT_MAX && dist[v] > dist[u] + e->get_weight()) {
 		dist[v] = dist[u] + e->get_weight();
 		parent[v] = u;
+
+		// for dijkstra
+		if (dijkstra_queue.find(v) != dijkstra_queue.end()) {
+			dijkstra_queue.erase(dijkstra_queue.find(v));
+			dijkstra_queue.insert(v);
+		}
+		
 	}
 }
 
@@ -132,25 +155,19 @@ void print_dag_shortest_path(Graph G, Vertex* s) {
 	}
 }
 
-class dijkstra_cmp {
-public:
-	bool operator()(Vertex* v1, Vertex* v2) {
-		return dist[v1] > dist[v2];
-	}
-};
+
 
 void dijkstra(Graph G, Vertex* s) {
 
 	init_single_source(G, s);
 
-	priority_queue<Vertex*, vector<Vertex*>, dijkstra_cmp> q;
 	unordered_set<Vertex*> vertices = G.get_vertex_set();
 	for (auto iter = vertices.begin(); iter != vertices.end(); iter++) {
-		q.push(*iter);
+		dijkstra_queue.insert(*iter);
 	}
 
-	while (!q.empty()) {
-		Vertex* v = q.top(); q.pop();
+	while (!dijkstra_queue.empty()) {
+		Vertex* v = *dijkstra_queue.begin(); dijkstra_queue.erase(dijkstra_queue.begin());
 		vector<Edge*> edges = G.get_adj_edges(v);
 		for (auto iter = edges.begin(); iter != edges.end(); iter++) {
 			relax(*iter);
