@@ -13,12 +13,14 @@
 #include "../include/vertex.h"
 #include "../include/edge.h"
 #include "../include/graph.h"
+#include "../include/tree_node.h"
 
 extern unordered_map<Vertex*, bool> visited;
 extern unordered_map<Vertex*, Vertex*> parent;
 unordered_map<Vertex*, int> ranks;
 
 unordered_map<Vertex*, int> cost;
+
 
 class prim_cmp {
 public:
@@ -138,4 +140,60 @@ void print_prim(Graph G) {
 	for (auto iter = mst_edges.begin(); iter != mst_edges.end(); iter++) {
 		cout << (*iter)->to_string() << endl;
 	}
+}
+
+class huffman_cmp {
+public:
+	bool operator()(HuffmanNode<char>* n1, HuffmanNode<char>* n2) {
+		return n1->freq > n2->freq;
+	}
+};
+
+void compute_code_map(TreeNode<char>* root, unordered_map<char, string>& code_map, string str) {
+	if (root->left == nullptr && root->right == nullptr) {
+		code_map[root->element] = str;
+	}
+	else {
+		compute_code_map(root->left, code_map, str + "0");
+		compute_code_map(root->right, code_map, str + "1");
+	}
+}
+
+unordered_map<char, string> huffman(vector<char> chs, unordered_map<char, int> freqs) {
+	int n = chs.size();
+	priority_queue<HuffmanNode<char>*, vector<HuffmanNode<char>*>, huffman_cmp> q;
+	for (char ch : chs) {
+		q.push(new HuffmanNode<char>(ch, freqs[ch]));
+	}
+	for (int i = 0; i < n - 1; ++i) {
+		HuffmanNode<char>* left_node = q.top(); q.pop();
+		HuffmanNode<char>* right_node = q.top(); q.pop();
+		q.push(new HuffmanNode<char>(' ', left_node->freq + right_node->freq, left_node, right_node));
+	}
+	HuffmanNode<char>* root = q.top();
+	unordered_map<char, string> code_map;
+	string str = "";
+	compute_code_map(root, code_map, str);
+	return code_map;
+}
+
+
+
+bool activity_cmp(vector<int> v1, vector<int> v2) {
+	return v1[1] < v2[1];
+}
+
+vector<vector<int>> greedy_activity_selector(vector<vector<int>> sf_time) {
+	sort(sf_time.begin(), sf_time.end(), activity_cmp);
+	int n = sf_time.size();
+	vector<vector<int>> arrangement;
+	arrangement.push_back(sf_time[0]);
+	int k = 0;
+	for (int i = 1; i < n; ++i) {
+		if (sf_time[i][0] >= sf_time[k][1]) {
+			arrangement.push_back(sf_time[i]);
+			k = i;
+		}
+	}
+	return arrangement;
 }

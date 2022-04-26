@@ -66,6 +66,9 @@
     <ClInclude Include="include\chap5.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\tree_node.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\matrix.cpp">

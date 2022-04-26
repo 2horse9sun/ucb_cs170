@@ -32,7 +32,9 @@ int main()
 
     //chap5
     //kruskal_test();
-    prim_test();
+    //prim_test();
+    //huffman_test();
+    greedy_activity_selector_test();
 
     while (true) {
         // chap0

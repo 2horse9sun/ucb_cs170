@@ -85,3 +85,44 @@ void prim_test() {
     std::cout << "time = " << (double(end - start) / CLOCKS_PER_SEC) * 1000 << "ms" << std::endl;
     std::cout << "======================================" << std::endl;
 }
+
+void huffman_test() {
+
+    std::cout << "huffman_test" << std::endl;
+
+    clock_t start, end;
+    start = clock();
+
+    vector<char> chs;
+    chs.push_back('A'); chs.push_back('B'); chs.push_back('C'); chs.push_back('D');
+    unordered_map<char, int> freqs;
+    freqs['A'] = 70; freqs['B'] = 3; freqs['C'] = 20; freqs['D'] = 37;
+
+    unordered_map<char, string> code_map = huffman(chs, freqs);
+    for (char ch : chs) {
+        cout << ch << ": " << code_map[ch] << endl;
+    }
+
+    end = clock();
+    std::cout << "time = " << (double(end - start) / CLOCKS_PER_SEC) * 1000 << "ms" << std::endl;
+    std::cout << "======================================" << std::endl;
+}
+
+void greedy_activity_selector_test() {
+
+    std::cout << "greedy_activity_selector_test" << std::endl;
+
+    clock_t start, end;
+    start = clock();
+
+    vector<vector<int>> sf_time = { {1,4},{3,5},{0,6},{5,7},{3,9},{5,9},{6,10},{8,11},{8,12},{2,14},{12,16} };
+    vector<vector<int>> arrangement = greedy_activity_selector(sf_time);
+    for (vector<int> v : arrangement) {
+        cout <<  "(" << v[0] << ", " << v[1] << ")" << endl;
+    }
+
+
+    end = clock();
+    std::cout << "time = " << (double(end - start) / CLOCKS_PER_SEC) * 1000 << "ms" << std::endl;
+    std::cout << "======================================" << std::endl;
+}

@@ -35,6 +35,7 @@
     <ClInclude Include="include\heap.h" />
     <ClInclude Include="include\matrix.h" />
     <ClInclude Include="include\polynomial.h" />
+    <ClInclude Include="include\tree_node.h" />
     <ClInclude Include="include\vertex.h" />
   </ItemGroup>
   <ItemGroup>
