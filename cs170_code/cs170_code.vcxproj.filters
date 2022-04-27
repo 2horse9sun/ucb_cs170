@@ -66,7 +66,10 @@
     <ClInclude Include="include\chap5.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\tree_node.h">
+    <ClInclude Include="include\tree.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\chap6.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -135,6 +138,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="test\chap5_test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\chap6.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="test\chap6_test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

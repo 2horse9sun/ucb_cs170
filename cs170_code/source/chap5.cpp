@@ -13,7 +13,7 @@
 #include "../include/vertex.h"
 #include "../include/edge.h"
 #include "../include/graph.h"
-#include "../include/tree_node.h"
+#include "../include/tree.h"
 
 extern unordered_map<Vertex*, bool> visited;
 extern unordered_map<Vertex*, Vertex*> parent;
@@ -149,7 +149,7 @@ public:
 	}
 };
 
-void compute_code_map(TreeNode<char>* root, unordered_map<char, string>& code_map, string str) {
+void compute_code_map(BSTNode<char>* root, unordered_map<char, string>& code_map, string str) {
 	if (root->left == nullptr && root->right == nullptr) {
 		code_map[root->element] = str;
 	}

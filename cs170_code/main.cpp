@@ -6,7 +6,7 @@
 #include "./include/chap3.h"
 #include "./include/chap4.h"
 #include "./include/chap5.h"
-
+#include "./include/chap6.h"
 
 
 
@@ -30,11 +30,23 @@ int main()
     //dag_shortest_path_test();
     //dijkstra_test();
 
-    //chap5
+    // chap5
     //kruskal_test();
     //prim_test();
     //huffman_test();
-    greedy_activity_selector_test();
+    //greedy_activity_selector_test();
+
+    // chap6
+    //LIS_test();
+    //cut_rod_test();
+    //matrix_chain_test();
+    //LCS_test();
+    //MED_test();
+    //knapsack_01_test();
+    //knapsack_unbounded_test();
+    //knapsack_bounded_test();
+    //knapsack_fractional_test();
+    //independent_sets_in_tree_test();
 
     while (true) {
         // chap0

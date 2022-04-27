@@ -8,7 +8,7 @@
 #include "./vertex.h"
 #include "./edge.h"
 #include "./graph.h"
-#include "./tree_node.h"
+#include "./tree.h"
 using namespace std;
 
 void makeset(Vertex* x);
@@ -23,11 +23,11 @@ void print_prim(Graph G);
 void prim_test();
 
 template<class T>
-class HuffmanNode : public TreeNode<T> {
+class HuffmanNode : public BSTNode<T> {
 public:
 	int freq;
-	HuffmanNode(T element, int freq, TreeNode<T>* left = nullptr, TreeNode<T>* right = nullptr)
-		: TreeNode<T>(element, left, right){
+	HuffmanNode(T element, int freq, BSTNode<T>* left = nullptr, BSTNode<T>* right = nullptr)
+		: BSTNode<T>(element, left, right){
 		this->freq = freq;
 	}
 };

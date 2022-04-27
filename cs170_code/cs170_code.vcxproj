@@ -26,6 +26,7 @@
     <ClInclude Include="include\chap3.h" />
     <ClInclude Include="include\chap4.h" />
     <ClInclude Include="include\chap5.h" />
+    <ClInclude Include="include\chap6.h" />
     <ClInclude Include="include\complex.h" />
     <ClInclude Include="include\global.h" />
     <ClInclude Include="include\datetime.h" />
@@ -35,7 +36,7 @@
     <ClInclude Include="include\heap.h" />
     <ClInclude Include="include\matrix.h" />
     <ClInclude Include="include\polynomial.h" />
-    <ClInclude Include="include\tree_node.h" />
+    <ClInclude Include="include\tree.h" />
     <ClInclude Include="include\vertex.h" />
   </ItemGroup>
   <ItemGroup>
@@ -47,6 +48,7 @@
     <ClCompile Include="source\chap3.cpp" />
     <ClCompile Include="source\chap4.cpp" />
     <ClCompile Include="source\chap5.cpp" />
+    <ClCompile Include="source\chap6.cpp" />
     <ClCompile Include="source\complex.cpp" />
     <ClCompile Include="source\constant.cpp" />
     <ClCompile Include="source\datetime.cpp" />
@@ -61,6 +63,7 @@
     <ClCompile Include="test\chap3_test.cpp" />
     <ClCompile Include="test\chap4_test.cpp" />
     <ClCompile Include="test\chap5_test.cpp" />
+    <ClCompile Include="test\chap6_test.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
